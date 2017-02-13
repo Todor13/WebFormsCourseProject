@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="b91d784370da44a8a6a48209b02150b9" Name="Diagram1" ZoomLevel="69">
+        <EntityTypeShape EntityType="WebFormsForumModel.Answer" Width="1.5" PointX="5.25" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebFormsForumModel.AspNetRole" Width="1.5" PointX="0.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebFormsForumModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebFormsForumModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebFormsForumModel.AspNetUser" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebFormsForumModel.Comment" Width="1.5" PointX="10.5" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebFormsForumModel.Section" Width="1.5" PointX="6" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WebFormsForumModel.Thread" Width="1.5" PointX="8.25" PointY="5.75" IsExpanded="true" />
+        <AssociationConnector Association="WebFormsForumModel.FK_Answers_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="WebFormsForumModel.FK_Answers_Threads" ManuallyRouted="false" />
+        <AssociationConnector Association="WebFormsForumModel.FK_Comments_Answers" ManuallyRouted="false" />
+        <AssociationConnector Association="WebFormsForumModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="WebFormsForumModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="WebFormsForumModel.FK_Comments_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="WebFormsForumModel.FK_Threads_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="WebFormsForumModel.FK_Threads_Sections" ManuallyRouted="false" />
+        <AssociationConnector Association="WebFormsForumModel.AspNetUserRoles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

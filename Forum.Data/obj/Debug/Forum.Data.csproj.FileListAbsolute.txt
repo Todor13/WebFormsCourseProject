@@ -1,0 +1,10 @@
+F:\Web\Projects\Forum\Forum.Data\bin\Debug\Forum.Data.dll.config
+F:\Web\Projects\Forum\Forum.Data\bin\Debug\Forum.Data.dll
+F:\Web\Projects\Forum\Forum.Data\bin\Debug\Forum.Data.pdb
+F:\Web\Projects\Forum\Forum.Data\bin\Debug\EntityFramework.dll
+F:\Web\Projects\Forum\Forum.Data\bin\Debug\EntityFramework.SqlServer.dll
+F:\Web\Projects\Forum\Forum.Data\bin\Debug\EntityFramework.xml
+F:\Web\Projects\Forum\Forum.Data\bin\Debug\EntityFramework.SqlServer.xml
+F:\Web\Projects\Forum\Forum.Data\obj\Debug\Forum.Data.csprojResolveAssemblyReference.cache
+F:\Web\Projects\Forum\Forum.Data\obj\Debug\Forum.Data.dll
+F:\Web\Projects\Forum\Forum.Data\obj\Debug\Forum.Data.pdb

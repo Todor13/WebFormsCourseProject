@@ -1,0 +1,6 @@
+﻿<%@ Master Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Forum.master.cs" Inherits="Forum.Forum.Forum" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <h1>Forum</h1>
+    <asp:ContentPlaceHolder ID="ForumMainContent" runat="server">
+    </asp:ContentPlaceHolder>
+</asp:Content>
