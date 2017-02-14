@@ -40,7 +40,7 @@ namespace Forum.Forum
 
         protected void ThreadsPreview_SearchButtonClick(object sender, EventArgs e)
         {
-            Response.Redirect("~/Forum/Search?query=" + this.ThreadsPreview.SearchTerm);
+            Response.Redirect("~/forum/search?query=" + this.ThreadsPreview.SearchTerm);
         }
 
     }

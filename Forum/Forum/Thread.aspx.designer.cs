@@ -22,6 +22,15 @@ namespace Forum.Forum {
         protected global::System.Web.UI.WebControls.Button AnswerButton;
         
         /// <summary>
+        /// UpdatePanelAnswer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanelAnswer;
+        
+        /// <summary>
         /// AnswerPanel control.
         /// </summary>
         /// <remarks>
@@ -56,6 +65,15 @@ namespace Forum.Forum {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button CancelButton;
+        
+        /// <summary>
+        /// UpdatePanelAnswersComments control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanelAnswersComments;
         
         /// <summary>
         /// ListViewAnswers control.
