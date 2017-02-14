@@ -1,5 +1,6 @@
 ﻿using Forum.Models;
 using Forum.Views.Events;
+using Forum.Views.Models;
 using System;
 using WebFormsMvp;
 

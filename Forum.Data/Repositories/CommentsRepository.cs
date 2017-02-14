@@ -19,6 +19,11 @@ namespace Forum.Data.Repositories
             return this.All().Where(x => x.Answer == answer).AsQueryable();
         }
 
+        public void CreateComment(Comment comment)
+        {
+            this.Add(comment);
+        }
+
         public void Dispose()
         {
         }

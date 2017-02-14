@@ -24,7 +24,7 @@ namespace Forum.Presenters
         private void Load(object sender, EventArgs e)
         {
             IList<Section> sections = this.forumData.SectionsRepository.GetAllSections().ToList();
-            var sectionNames = new List<string>();
+
             foreach (var section in sections)
             {
                 this.View.Model.Sections.Add(section.Name);
@@ -37,7 +37,7 @@ namespace Forum.Presenters
 
             var section = this.forumData.SectionsRepository.GetSectionByName(e.Section);
             thread.Section = section;
-            var userId = System.Web.HttpContext.Current.User.Identity.GetUserId<int>();
+            var userId = HttpContext.User.Identity.GetUserId<int>();
             thread.UserId = userId;
             thread.Contents = e.Content;
             thread.Title = e.Title;

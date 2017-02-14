@@ -8,5 +8,6 @@ namespace Forum.Data.Repositories
         IQueryable<Answer> GetAnswersByThread(Thread thread);
         IQueryable<Answer> GetAnswersByThreadId(int id);
         Answer GetAnswerById(int id);
+        void CreateAnswer(Answer answer);
     }
 }

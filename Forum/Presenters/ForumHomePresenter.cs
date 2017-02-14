@@ -1,12 +1,8 @@
 ﻿using Forum.Data;
-using Forum.Data.Repositories;
 using Forum.Views;
 using Forum.Views.Events;
-using Forum.Views.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using WebFormsMvp;
 
 namespace Forum.Presenters

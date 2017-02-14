@@ -2,5 +2,5 @@
 <%@ Register Src="~/Controls/ThreadsPreview.ascx" TagName="ThreadsPreview" TagPrefix="uc" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ForumMainContent" runat="server">
-    <uc:ThreadsPreview runat="server" ID="ThreadsPreview" />
+    <uc:ThreadsPreview runat="server" ID="ThreadsPreview" OnSearchButtonClick="ThreadsPreview_SearchButtonClick" />
 </asp:Content>

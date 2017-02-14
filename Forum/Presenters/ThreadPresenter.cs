@@ -3,9 +3,7 @@ using Forum.Views;
 using Forum.Views.Events;
 using Microsoft.AspNet.Identity;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using WebFormsMvp;
 
 namespace Forum.Presenters
@@ -27,11 +25,12 @@ namespace Forum.Presenters
             var comment = new Comment();
 
             comment.Contents = e.Content;
-            comment.UserId = System.Web.HttpContext.Current.User.Identity.GetUserId<int>();
+            comment.UserId = HttpContext.User.Identity.GetUserId<int>();
             comment.Published = DateTime.UtcNow;
             comment.IsVisible = true;
+            comment.AnswerId = e.Id;
 
-            this.forumData.AnswersRepository.GetAnswerById(e.Id).Comments.Add(comment);
+            this.forumData.CommentsRepository.CreateComment(comment);
             this.forumData.Save();
         }
 
@@ -40,19 +39,24 @@ namespace Forum.Presenters
             var answer = new Answer();
 
             answer.Contents = e.Content;
-            answer.UserId = System.Web.HttpContext.Current.User.Identity.GetUserId<int>();
+            answer.UserId = HttpContext.User.Identity.GetUserId<int>();
             answer.Published = DateTime.UtcNow;
             answer.IsVisible = true;
+            answer.ThreadId = e.Id;
 
-            this.forumData.ThreadsRepository.GetThreadById(e.Id).Answers.Add(answer);
+            this.forumData.AnswersRepository.CreateAnswer(answer);
             this.forumData.Save();
         }
 
         private void GetThread(object sender, GetThreadEventArgs e)
         {
             var thread = this.forumData.ThreadsRepository.GetThreadById(e.Id);
-            this.View.Model.Thread = thread;
-            var answers = this.forumData.AnswersRepository.GetAnswersByThreadId(e.Id).ToArray();
+            if (thread.IsVisible == true)
+            {
+                this.View.Model.Thread = thread;
+            }
+            
+            var answers = this.forumData.AnswersRepository.GetAnswersByThreadId(e.Id).Where(a=>a.IsVisible == true).ToArray();
             this.View.Model.Answers = answers;
         }
     }

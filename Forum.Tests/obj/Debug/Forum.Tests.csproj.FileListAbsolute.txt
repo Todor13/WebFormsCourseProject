@@ -63,3 +63,9 @@ F:\Web\Projects\Forum\Forum.Tests\bin\Debug\Moq.dll
 F:\Web\Projects\Forum\Forum.Tests\bin\Debug\nunit.framework.dll
 F:\Web\Projects\Forum\Forum.Tests\bin\Debug\Moq.xml
 F:\Web\Projects\Forum\Forum.Tests\bin\Debug\nunit.framework.xml
+F:\Web\Projects\Forum\Forum.Tests\bin\Debug\EntityFramework.SqlServer.dll
+F:\Web\Projects\Forum\Forum.Tests\bin\Debug\Microsoft.Owin.Security.OAuth.dll
+F:\Web\Projects\Forum\Forum.Tests\bin\Debug\Newtonsoft.Json.dll
+F:\Web\Projects\Forum\Forum.Tests\bin\Debug\EntityFramework.SqlServer.xml
+F:\Web\Projects\Forum\Forum.Tests\bin\Debug\Microsoft.Owin.Security.OAuth.xml
+F:\Web\Projects\Forum\Forum.Tests\bin\Debug\Newtonsoft.Json.xml

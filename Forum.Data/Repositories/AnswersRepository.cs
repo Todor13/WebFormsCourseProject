@@ -29,9 +29,9 @@ namespace Forum.Data.Repositories
             return this.GetById(id);
         }
 
-        public void AddAnswer(int id)
+        public void CreateAnswer(Answer answer)
         {
-
+            this.Add(answer);
         }
 
         public void Dispose()

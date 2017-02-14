@@ -6,5 +6,6 @@ namespace Forum.Data.Repositories
     {
         void Dispose();
         IQueryable<Comment> GetAnswersByThread(Answer answer);
+        void CreateComment(Comment comment);
     }
 }

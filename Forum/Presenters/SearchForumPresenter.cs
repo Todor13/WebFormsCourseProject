@@ -1,5 +1,6 @@
 ﻿using Forum.Data;
 using Forum.Views;
+using Forum.Views.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace Forum.Presenters
             this.View.SearchThreads += SearchThreads;
         }
 
-        private void SearchThreads(object sender, Views.Events.SearchForumEventArgs e)
+        private void SearchThreads(object sender, SearchForumEventArgs e)
         {
             this.View.Model.Threads = GetThreadsBySearchTerm(e.SearchTerm, e.PageId);
         }
