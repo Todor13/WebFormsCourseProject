@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+  <siteMapNode url="~/forum/home" title="Forum"  description="Forum">
+    <siteMapNode url="~/forum/threads" title="Thread"  description="Thread" />
+    <siteMapNode url="~/forum/search" title="Search"  description="Search" />
+  </siteMapNode>
+</siteMap>

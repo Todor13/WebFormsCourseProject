@@ -6,6 +6,7 @@ using Forum.Views.Events;
 using Moq;
 using NUnit.Framework;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
@@ -139,7 +140,8 @@ namespace Forum.Tests.PresentersTests
 
             view.Raise(v => v.GetThread += null, view.Object, new GetThreadEventArgs(1));
 
-            Assert.AreEqual(new List<Answer>(), view.Object.Model.Answers);
+            Assert.IsInstanceOf<IEnumerable>(view.Object.Model.Answers);
+            Assert.AreEqual(0, view.Object.Model.Answers.Count());
         }
 
         [TestCase("test")]

@@ -55,8 +55,12 @@ namespace Forum.Presenters
             {
                 this.View.Model.Thread = thread;
             }
-            
-            var answers = this.forumData.AnswersRepository.GetAnswersByThreadId(e.Id).Where(a=>a.IsVisible == true).ToArray();
+
+            var answers = this.forumData.AnswersRepository.GetAnswersByThreadId(e.Id).Where(a => a.IsVisible == true).ToList();
+            foreach (var answer in answers)
+            {
+                answer.Comments.OrderBy(c => c.Published);
+            }
             this.View.Model.Answers = answers;
         }
     }

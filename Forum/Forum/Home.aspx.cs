@@ -20,7 +20,7 @@ namespace Forum.Forum
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+           
             int page;
 
             if (int.TryParse(this.Request.QueryString["page"], out page))

@@ -1,5 +1,4 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Forum/Forum.master" AutoEventWireup="true" CodeBehind="Thread.aspx.cs" Inherits="Forum.Forum.Thread" MaintainScrollPositionOnPostback="true" %>
-
 <%@ Register Src="~/Controls/Reply.ascx" TagName="Reply" TagPrefix="uc" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ForumMainContent" runat="server">
     <h3><%#:  Model.Thread.Title %></h3>
@@ -21,7 +20,7 @@
             <asp:Panel runat="server" ID="AnswerPanel" Visible="false">
                 <h4>Add Answer</h4>
                 <br />
-                <asp:TextBox runat="server" ID="TextBoxAnswer"></asp:TextBox>
+                <asp:TextBox runat="server" ID="TextBoxAnswer" Width="100%" Height="15em" TextMode="MultiLine"></asp:TextBox>
                 <br />
                 <asp:Button runat="server" ID="PublishButton" Text="Publish" OnClick="PublishButton_Click" />
                 <asp:Button runat="server" ID="CancelButton" Text="Cancel" OnClick="CancelButton_Click" />
@@ -81,7 +80,6 @@
                                 </td>
                             </tr>
                         </table>
-
                     </div>
                 </ItemTemplate>
             </asp:ListView>

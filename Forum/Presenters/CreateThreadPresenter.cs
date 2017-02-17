@@ -6,6 +6,7 @@ using System.Linq;
 using WebFormsMvp;
 using Microsoft.AspNet.Identity;
 using Forum.Views.Events;
+using System.IO;
 
 namespace Forum.Presenters
 {
@@ -35,18 +36,66 @@ namespace Forum.Presenters
         {
             var thread = new Thread();
 
-            var section = this.forumData.SectionsRepository.GetSectionByName(e.Section);
-            thread.Section = section;
+            try
+            {
+                thread.Section = this.forumData.SectionsRepository.GetSectionByName(e.Section);
+            }
+            catch (Exception)
+            {
+                HttpContext.Server.Transfer("NoFileErrorPage", true);
+                return;
+            }
+            
             var userId = HttpContext.User.Identity.GetUserId<int>();
-            thread.UserId = userId;
-            thread.Contents = e.Content;
-            thread.Title = e.Title;
+
+            if (userId != 0)
+            {
+                thread.UserId = userId;
+            }
+            else
+            {
+                HttpContext.Server.Transfer("Login", true);
+                return;
+            }
+
+            var content = e.Content.Trim();
+
+            if (content.Length > Common.Constants.ContentMinLength &&
+                content.Length < Common.Constants.ContentMaxLength)
+            {
+                thread.Contents = content;
+            }
+            else
+            {
+                HttpContext.Server.Transfer("ErrorPage", true);
+                return;
+            }
+
+            var title = e.Title.Trim();
+
+            if (title.Length > Common.Constants.TitleMinLength &&
+                title.Length < Common.Constants.TitleMaxLength)
+            {
+                thread.Title = title;
+            }
+            else
+            {
+                HttpContext.Server.Transfer("ErrorPage", true);
+                return;
+            }
+            
             thread.Published = DateTime.UtcNow;
             thread.IsVisible = true;
-            
 
-            this.forumData.ThreadsRepository.CreateThread(thread);
-            this.forumData.Save();
+            try
+            {
+                this.forumData.ThreadsRepository.CreateThread(thread);
+                this.forumData.Save();
+            }
+            catch (Exception)
+            {
+                HttpContext.Server.Transfer("500", true);
+            } 
         }
     }
 }

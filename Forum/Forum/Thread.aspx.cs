@@ -44,6 +44,7 @@ namespace Forum.Forum
         protected void AnswerButton_Click(object sender, EventArgs e)
         {
             this.AnswerPanel.Visible = true;
+            this.TextBoxAnswer.Focus();
         }
 
         protected void PublishButton_Click(object sender, EventArgs e)

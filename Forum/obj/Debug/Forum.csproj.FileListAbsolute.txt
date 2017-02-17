@@ -100,3 +100,4 @@ F:\Web\Projects\Forum\Forum\bin\Castle.Core.dll
 F:\Web\Projects\Forum\Forum\bin\Ninject.Extensions.Factory.dll
 F:\Web\Projects\Forum\Forum\bin\Castle.Core.xml
 F:\Web\Projects\Forum\Forum\bin\Ninject.Extensions.Factory.xml
+F:\Web\Projects\Forum\Forum\bin\AjaxControlToolkit.dll

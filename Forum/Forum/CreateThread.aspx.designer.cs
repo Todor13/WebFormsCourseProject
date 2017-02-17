@@ -13,13 +13,31 @@ namespace Forum.Forum {
     public partial class CreateThread {
         
         /// <summary>
-        /// Label1 control.
+        /// LabelTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
+        protected global::System.Web.UI.WebControls.Label LabelTitle;
+        
+        /// <summary>
+        /// RequiredFieldValidatorTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidatorTitle;
+        
+        /// <summary>
+        /// RegularExpressionValidatorTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidatorTitle;
         
         /// <summary>
         /// TextBoxTitle control.
@@ -31,13 +49,13 @@ namespace Forum.Forum {
         protected global::System.Web.UI.WebControls.TextBox TextBoxTitle;
         
         /// <summary>
-        /// Label2 control.
+        /// LabelSection control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label2;
+        protected global::System.Web.UI.WebControls.Label LabelSection;
         
         /// <summary>
         /// DropDownSections control.
@@ -49,13 +67,31 @@ namespace Forum.Forum {
         protected global::System.Web.UI.WebControls.DropDownList DropDownSections;
         
         /// <summary>
-        /// Label3 control.
+        /// LabelContent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label3;
+        protected global::System.Web.UI.WebControls.Label LabelContent;
+        
+        /// <summary>
+        /// RequiredFieldContent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldContent;
+        
+        /// <summary>
+        /// RegularExpressionValidatorContent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidatorContent;
         
         /// <summary>
         /// TextBoxContent control.
@@ -67,12 +103,12 @@ namespace Forum.Forum {
         protected global::System.Web.UI.WebControls.TextBox TextBoxContent;
         
         /// <summary>
-        /// Button1 control.
+        /// ButtonCreate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.WebControls.Button ButtonCreate;
     }
 }
