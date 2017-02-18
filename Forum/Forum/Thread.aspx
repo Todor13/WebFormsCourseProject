@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Forum/Forum.master" AutoEventWireup="true" CodeBehind="Thread.aspx.cs" Inherits="Forum.Forum.Thread" MaintainScrollPositionOnPostback="true" %>
+
 <%@ Register Src="~/Controls/Reply.ascx" TagName="Reply" TagPrefix="uc" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ForumMainContent" runat="server">
     <h3><%#:  Model.Thread.Title %></h3>
@@ -20,7 +21,13 @@
             <asp:Panel runat="server" ID="AnswerPanel" Visible="false">
                 <h4>Add Answer</h4>
                 <br />
+                 <asp:RequiredFieldValidator ID="RequiredFieldAnswer" runat="server" ErrorMessage="Answer is empty!"
+                                            ControlToValidate="TextBoxAnswer" Display="Dynamic" ForeColor="DarkRed" EnableClientScript="false"></asp:RequiredFieldValidator>
+                <asp:RegularExpressionValidator ID="RegularExpressionValidatorContent" EnableClientScript="false" ControlToValidate="TextBoxAnswer"
+                    ValidationExpression="^.{50,2500}$" runat="server" ForeColor="DarkRed"
+                    ErrorMessage="Answer length must be between 50 and 2500 characters long!"></asp:RegularExpressionValidator>
                 <asp:TextBox runat="server" ID="TextBoxAnswer" Width="100%" Height="15em" TextMode="MultiLine"></asp:TextBox>
+                <br />
                 <br />
                 <asp:Button runat="server" ID="PublishButton" Text="Publish" OnClick="PublishButton_Click" />
                 <asp:Button runat="server" ID="CancelButton" Text="Cancel" OnClick="CancelButton_Click" />
@@ -76,7 +83,21 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <uc:Reply runat="server" ID="ReplyComment" Visible="false" OnPublishButtonClick="ReplyComment_PublishButtonClick"></uc:Reply>
+                                    <asp:Panel runat="server" ID="CommentPanel" Visible="false">
+                                        <h4>Add Comment</h4>
+                                        <br />
+                                        <asp:RequiredFieldValidator ID="RequiredFieldComment" runat="server" ErrorMessage="Comment is empty!"
+                                            ControlToValidate="TextBoxComment" Display="Dynamic" ForeColor="DarkRed" EnableClientScript="false"></asp:RequiredFieldValidator>
+                                        <asp:RegularExpressionValidator ID="RegularExpressionValidatorComment"
+                                            EnableClientScript="false" ControlToValidate="TextBoxComment"
+                                            ValidationExpression="^.{50,2500}$" runat="server" ForeColor="DarkRed"
+                                            ErrorMessage="Comment length must be between 50 and 2500 characters long!"></asp:RegularExpressionValidator>
+                                        <asp:TextBox runat="server" ID="TextBoxComment" Width="100%" Height="15em" TextMode="MultiLine"></asp:TextBox>
+                                        <br />
+                                        <br />
+                                        <asp:Button runat="server" ID="ButtonCommentPublish" Text="Publish" CommandName="PublishComment" />
+                                        <asp:Button runat="server" ID="CancelButton" Text="Cancel" CommandName="CancelComment" />
+                                    </asp:Panel>
                                 </td>
                             </tr>
                         </table>

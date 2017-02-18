@@ -17,10 +17,10 @@ using System.Web;
 namespace Forum.Tests.PresentersTests
 {   
     [TestFixture]
-    public class ThreadPresenterTests
+    public class ThreadPresenterGetThreadTests
     {
         [Test]
-        public void ThreadPresenter_ShouldGetRightThread()
+        public void ThreadPresenter_GetThread_ShouldGetRightThread()
         {
             var view = new Mock<IThreadView>();
             view.SetupAllProperties();
@@ -51,7 +51,7 @@ namespace Forum.Tests.PresentersTests
         }
 
         [Test]
-        public void ThreadPresenter_ShouldGetRightAnswers()
+        public void ThreadPresenter_GetThread_ShouldGetRightAnswers()
         {
             var view = new Mock<IThreadView>();
             view.SetupAllProperties();
@@ -82,7 +82,7 @@ namespace Forum.Tests.PresentersTests
         }
 
         [Test]
-        public void ThreadPresenter_ShouldReturnNullWhenIsNotVisible()
+        public void ThreadPresenter_GetThread_ShouldReturnNullWhenIsNotVisible()
         {
             var view = new Mock<IThreadView>();
             view.SetupAllProperties();
@@ -113,7 +113,7 @@ namespace Forum.Tests.PresentersTests
         }
 
         [Test]
-        public void ThreadPresenter_ShouldReturnEmptyWhenAnswersAreNotVisible()
+        public void ThreadPresenter_GetThread_ShouldReturnEmptyWhenAnswersAreNotVisible()
         {
             var view = new Mock<IThreadView>();
             view.SetupAllProperties();
@@ -142,58 +142,6 @@ namespace Forum.Tests.PresentersTests
 
             Assert.IsInstanceOf<IEnumerable>(view.Object.Model.Answers);
             Assert.AreEqual(0, view.Object.Model.Answers.Count());
-        }
-
-        [TestCase("test")]
-        [TestCase("AbSbxbBSD123 44")]
-        public void ThreadPresenter_ShouldCreateAnswerCorrectly(string testContent)
-        {
-            var view = new Mock<IThreadView>();
-            view.SetupAllProperties();
-            var httpContext = new Mock<HttpContextBase>();
-            var forumData = new Mock<IForumData>();
-            var identity = new Mock<IIdentity>();
-            var user = new Mock<IPrincipal>();
-            var answersRepository = new Mock<IAnswersRepository>();
-
-            httpContext.Setup(h => h.User).Returns(user.Object);
-            user.Setup(u => u.Identity).Returns(identity.Object);
-            forumData.Setup(d => d.AnswersRepository).Returns(answersRepository.Object);
-
-            var presenter = new ThreadPresenter(view.Object, forumData.Object)
-            {
-                HttpContext = httpContext.Object
-            };
-
-            view.Raise(v => v.Answer += null, view.Object, new AnswerThreadEventArgs(testContent, 1));
-
-            answersRepository.Verify(r => r.CreateAnswer(It.Is<Answer>(a => a.Contents == testContent)));
-        }
-
-        [TestCase("Test")]
-        [TestCase("ZxYhj 13 01 xasJg")]
-        public void ThreadPresenter_ShouldCreateCommentsCorrectly(string testContent)
-        {
-            var view = new Mock<IThreadView>();
-            view.SetupAllProperties();
-            var httpContext = new Mock<HttpContextBase>();
-            var forumData = new Mock<IForumData>();
-            var identity = new Mock<IIdentity>();
-            var user = new Mock<IPrincipal>();
-            var commentsRepository = new Mock<ICommentsRepository>();
-
-            httpContext.Setup(h => h.User).Returns(user.Object);
-            user.Setup(u => u.Identity).Returns(identity.Object);
-            forumData.Setup(d => d.CommentsRepository).Returns(commentsRepository.Object);
-
-            var presenter = new ThreadPresenter(view.Object, forumData.Object)
-            {
-                HttpContext = httpContext.Object
-            };
-
-            view.Raise(v => v.Comment += null, view.Object, new CommentAnswerEventArgs(1, testContent));
-
-            commentsRepository.Verify(r => r.CreateComment(It.Is<Comment>(c => c.Contents == testContent)));
         }
     }
 }

@@ -22,6 +22,15 @@ namespace Forum.Controls {
         protected global::System.Web.UI.WebControls.Panel AnswerPanel;
         
         /// <summary>
+        /// RegularExpressionValidatorContent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidatorContent;
+        
+        /// <summary>
         /// TextBoxReply control.
         /// </summary>
         /// <remarks>
@@ -47,14 +56,5 @@ namespace Forum.Controls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button CancelButton;
-        
-        /// <summary>
-        /// RangeValidatorTextBoxReply control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RangeValidator RangeValidatorTextBoxReply;
     }
 }

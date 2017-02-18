@@ -11,7 +11,13 @@ namespace Forum.Errors
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
 
+                HttpContext CurrContext = HttpContext.Current;
+                Response.Write(CurrContext.Items.ToString());
+                
+            }
         }
     }
 }

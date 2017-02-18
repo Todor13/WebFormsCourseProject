@@ -24,28 +24,91 @@ namespace Forum.Presenters
         {
             var comment = new Comment();
 
-            comment.Contents = e.Content;
-            comment.UserId = HttpContext.User.Identity.GetUserId<int>();
+            var userId = HttpContext.User.Identity.GetUserId<int>();
+
+            if (userId != 0)
+            {
+                comment.UserId = userId;
+            }
+            else
+            {
+                HttpContext.Response.Redirect("~/account/login");
+                return;
+            }
+
+            var content = e.Content.Trim();
+
+            if (content.Length > Common.Constants.ContentMinLength &&
+                content.Length < Common.Constants.ContentMaxLength)
+            {
+                comment.Contents = content;
+            }
+            else
+            {
+                HttpContext.Server.Transfer("ErrorPage", true);
+                return;
+            }
+
             comment.Published = DateTime.UtcNow;
             comment.IsVisible = true;
             comment.AnswerId = e.Id;
 
-            this.forumData.CommentsRepository.CreateComment(comment);
-            this.forumData.Save();
+            try
+            {
+                this.forumData.CommentsRepository.CreateComment(comment);
+                this.forumData.Save();
+            }
+            catch (Exception)
+            {
+                HttpContext.Server.Transfer("500", true);
+                return;
+            }
         }
 
         private void Answer(object sender, AnswerThreadEventArgs e)
         {
             var answer = new Answer();
+            var userId = HttpContext.User.Identity.GetUserId<int>();
 
-            answer.Contents = e.Content;
-            answer.UserId = HttpContext.User.Identity.GetUserId<int>();
+            if (userId != 0)
+            {
+                answer.UserId = userId;
+            }
+            else
+            {
+                HttpContext.Response.Redirect("~/account/login");
+                return;
+                
+            }
+
+            var content = e.Content.Trim();
+
+            if (content.Length > Common.Constants.ContentMinLength &&
+                content.Length < Common.Constants.ContentMaxLength)
+            {
+                answer.Contents = content;
+            }
+            else
+            {
+                HttpContext.Server.Transfer("ErrorPage", true);
+                return;
+            }
+
+            answer.ThreadId = e.Id;
             answer.Published = DateTime.UtcNow;
             answer.IsVisible = true;
-            answer.ThreadId = e.Id;
 
-            this.forumData.AnswersRepository.CreateAnswer(answer);
-            this.forumData.Save();
+            try
+            {
+                this.forumData.AnswersRepository.CreateAnswer(answer);
+                this.forumData.Save();
+            }
+            catch (Exception)
+            {
+                HttpContext.Server.Transfer("500", true);
+                return;
+            }
+            
         }
 
         private void GetThread(object sender, GetThreadEventArgs e)

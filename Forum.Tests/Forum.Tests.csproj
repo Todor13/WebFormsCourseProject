@@ -113,7 +113,9 @@
     <Compile Include="PresentersTests\CreateThreadPresenterTests.cs" />
     <Compile Include="PresentersTests\ForumHomePresenterTests.cs" />
     <Compile Include="PresentersTests\SearchForumPresenterTests.cs" />
-    <Compile Include="PresentersTests\ThreadPresenterTests.cs" />
+    <Compile Include="PresentersTests\ThreadPresenterTests\ThreadPresenterAnswerTests.cs" />
+    <Compile Include="PresentersTests\ThreadPresenterTests\ThreadPresenterCommentTests.cs" />
+    <Compile Include="PresentersTests\ThreadPresenterTests\ThreadPresenterGetThreadTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
