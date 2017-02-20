@@ -34,6 +34,11 @@ namespace Forum.Data.Repositories
             this.Add(answer);
         }
 
+        public void UpdateAnswer(Answer answer)
+        {
+            this.Update(answer);
+        }
+
         public void Dispose()
         {
         }

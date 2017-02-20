@@ -2,6 +2,7 @@
 using Forum.Data.Repositories;
 using Forum.Presenters;
 using Forum.Views;
+using Forum.Views.Events;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -37,7 +38,7 @@ namespace Forum.Tests.PresentersTests.ThreadPresenterTests
                 HttpContext = httpContext.Object
             };
 
-            view.Raise(v => v.Comment += null, view.Object, new CommentAnswerEventArgs(1, testContent));
+            view.Raise(v => v.Comment += null, view.Object, new ReplyEventArgs(1, 1, testContent));
 
             commentsRepository.Verify(r => r.CreateComment(It.Is<Comment>(c => c.Contents == testContent)));
         }
@@ -65,7 +66,7 @@ namespace Forum.Tests.PresentersTests.ThreadPresenterTests
             };
 
             var testContent = "TestComment With 51 Characters...sdfsdfsdf asd qw a";
-            view.Raise(v => v.Comment += null, view.Object, new CommentAnswerEventArgs(1, testContent));
+            view.Raise(v => v.Comment += null, view.Object, new ReplyEventArgs(1, 0, testContent));
 
             response.Verify(r => r.Redirect(It.Is<string>(s => s.Contains("login"))));
         }
@@ -93,7 +94,7 @@ namespace Forum.Tests.PresentersTests.ThreadPresenterTests
                 HttpContext = httpContext.Object
             };
 
-            view.Raise(v => v.Comment += null, view.Object, new CommentAnswerEventArgs(1, testContent));
+            view.Raise(v => v.Comment += null, view.Object, new ReplyEventArgs(1, 0, testContent));
 
             server.Verify(s => s.Transfer(It.Is<string>(x => x.Contains("ErrorPage")), true));
         }
@@ -121,7 +122,7 @@ namespace Forum.Tests.PresentersTests.ThreadPresenterTests
             var expectedContent = "TestContent Should be at least 50 characters long!!";
             var testContent = "  TestContent Should be at least 50 characters long!!    ";
 
-            view.Raise(v => v.Comment += null, view.Object, new CommentAnswerEventArgs(1, testContent));
+            view.Raise(v => v.Comment += null, view.Object, new ReplyEventArgs(1, 0, testContent));
 
             commentsRepository.Verify(r => r.CreateComment(It.Is<Comment>(c => c.Contents == expectedContent)));
         }
@@ -148,7 +149,7 @@ namespace Forum.Tests.PresentersTests.ThreadPresenterTests
 
             var testContent = "TestContent Should be at least 50 characters long!!";
 
-            view.Raise(v => v.Comment += null, view.Object, new CommentAnswerEventArgs(7, testContent));
+            view.Raise(v => v.Comment += null, view.Object, new ReplyEventArgs(7, 1, testContent));
 
             commentsRepository.Verify(r => r.CreateComment(It.Is<Comment>(c => c.AnswerId == 7)));
         }
@@ -175,7 +176,7 @@ namespace Forum.Tests.PresentersTests.ThreadPresenterTests
 
             var testContent = "TestContent Should be at least 50 characters long!!";
 
-            view.Raise(v => v.Comment += null, view.Object, new CommentAnswerEventArgs(7, testContent));
+            view.Raise(v => v.Comment += null, view.Object, new ReplyEventArgs(7, 1, testContent));
 
             commentsRepository.Verify(r => r.CreateComment(It.Is<Comment>(c => c.IsVisible == true)));
         }
@@ -205,7 +206,7 @@ namespace Forum.Tests.PresentersTests.ThreadPresenterTests
 
             var testContent = "TestContent Should be at least 50 characters long!!";
 
-            view.Raise(v => v.Comment += null, view.Object, new CommentAnswerEventArgs(1, testContent));
+            view.Raise(v => v.Comment += null, view.Object, new ReplyEventArgs(1, 1, testContent));
 
             server.Verify(s => s.Transfer(It.Is<string>(x => x.Contains("500")), true));
         }

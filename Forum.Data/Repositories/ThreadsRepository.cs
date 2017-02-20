@@ -29,6 +29,10 @@ namespace Forum.Data.Repositories
             return this.GetById(id);
         }
 
+        public void UpdateThread(Thread thread)
+        {
+            this.Update(thread);
+        }
 
         public void Dispose()
         {

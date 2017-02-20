@@ -28,7 +28,7 @@
             <div class="published">
                 <p>
                     Published by <%#: Item.AspNetUser.Email %> on
-                    <%#: String.Format("{0:dd/MMMM/yyyy H:mm:ss}", Item.Published) %> in 
+                    <%#: String.Format("{0:dd MMMM yyyy H:mm:ss}", Item.Published.ToLocalTime()) %> in 
                     <%#: Item.Section.Name %>
                 </p>
             </div>

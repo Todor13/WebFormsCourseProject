@@ -36,12 +36,12 @@ namespace Forum.Forum
             this.ThreadsPreview.ThreadsDataSource = this.Model.Threads;
             this.ThreadsPreview.PagerSize = pagerSizeArray;
             this.ThreadsPreview.DataBind();
+            
         }
 
         protected void ThreadsPreview_SearchButtonClick(object sender, EventArgs e)
         {
             Response.Redirect("~/forum/search?query=" + this.ThreadsPreview.SearchTerm);
         }
-
     }
 }

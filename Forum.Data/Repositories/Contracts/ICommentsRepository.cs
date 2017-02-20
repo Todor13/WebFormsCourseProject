@@ -3,9 +3,11 @@
 namespace Forum.Data.Repositories
 {
     public interface ICommentsRepository
-    {
-        void Dispose();
-        IQueryable<Comment> GetAnswersByThread(Answer answer);
+    {      
+        IQueryable<Comment> GetCommentsByAnswer(Answer answer);
         void CreateComment(Comment comment);
+        Comment GetCommentById(int id);
+        void UpdateComment(Comment comment);
+        void Dispose();
     }
 }

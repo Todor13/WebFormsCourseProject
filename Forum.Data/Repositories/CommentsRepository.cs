@@ -14,7 +14,7 @@ namespace Forum.Data.Repositories
         {
         }
 
-        public IQueryable<Comment> GetAnswersByThread(Answer answer)
+        public IQueryable<Comment> GetCommentsByAnswer(Answer answer)
         {
             return this.All().Where(x => x.Answer == answer).AsQueryable();
         }
@@ -22,6 +22,16 @@ namespace Forum.Data.Repositories
         public void CreateComment(Comment comment)
         {
             this.Add(comment);
+        }
+
+        public Comment GetCommentById(int id)
+        {
+            return this.GetById(id);
+        }
+
+        public void UpdateComment(Comment comment)
+        {
+            this.Update(comment);
         }
 
         public void Dispose()

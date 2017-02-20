@@ -74,45 +74,37 @@ namespace Forum.Tests.PresentersTests
             };
 
             var testContent = "TestContent Should be at least 50 characters long!!!";
-            view.Raise(v => v.Create += null, view.Object, new CreateThreadEventArgs("TestTitle", testContent, "TestSection"));
+            view.Raise(v => v.Create += null, view.Object, new ThreadEventArgs("TestTitle", testContent, "TestSection", 1));
 
             threadsRepository.Verify(t => t.CreateThread(It.Is<Thread>(x => x.Title == "TestTitle" && x.Contents == testContent && x.Section == section)));
         }
 
         [Test]
-        public void CreateThreadPresenter_ShouldTransferWhenSectionNotFound()
+        public void CreateThreadPresenter_ShouldThrowIfConnectionProblem()
         {
             var view = new Mock<ICreateThreadView>();
             view.SetupAllProperties();
             var forumData = new Mock<IForumData>();
             var sectionsRepository = new Mock<ISectionsRepository>();
-            var httpContex = new Mock<HttpContextBase>();
-            var server = new Mock<HttpServerUtilityBase>();
             var claim = new Claim("test", "1");
 
-            httpContex.Setup(h => h.Server).Returns(server.Object);
             sectionsRepository.Setup(r => r.GetSectionByName(It.IsAny<string>())).Throws(new Exception());
             forumData.Setup(f => f.SectionsRepository).Returns(sectionsRepository.Object);
 
-            var presenter = new CreateThreadPresenter(view.Object, forumData.Object)
-            {
-                HttpContext = httpContex.Object
-            };
+            var presenter = new CreateThreadPresenter(view.Object, forumData.Object);
 
-            view.Raise(v => v.Create += null, view.Object, new CreateThreadEventArgs("TestTitle", "TestContent", "TestSection"));
-
-            server.Verify(s => s.Transfer(It.Is<string>(x=>x.Contains("NoFileErrorPage")), true), Times.Once);
+            Assert.Throws<HttpException>(() => view.Raise(v => v.Create += null, view.Object, new ThreadEventArgs("TestTitle", "TestContent", "TestSection", 1)));
         }
 
         [Test]
-        public void CreateThreadPresenter_ShouldTransferToLoginWhenThereIsNoUser()
+        public void CreateThreadPresenter_ShouldRedirectToLoginWhenThereIsNoUser()
         {
             var view = new Mock<ICreateThreadView>();
             view.SetupAllProperties();
             var httpContex = new Mock<HttpContextBase>();
             var forumData = new Mock<IForumData>();
             var threadsRepository = new Mock<IThreadsRepository>();
-            var server = new Mock<HttpServerUtilityBase>();
+            var response = new Mock<HttpResponseBase>();
             var claim = new Claim("test", "0");
             var identity = new Mock<ClaimsIdentity>();
 
@@ -121,7 +113,7 @@ namespace Forum.Tests.PresentersTests
             var section = new Section() { Name = "TestSection" };
             forumData.Setup(s => s.SectionsRepository.GetSectionByName(It.IsAny<string>())).Returns(section);
             httpContex.Setup(c => c.User.Identity).Returns(identity.Object);
-            httpContex.Setup(h => h.Server).Returns(server.Object);
+            httpContex.Setup(h => h.Response).Returns(response.Object);
             forumData.Setup(f => f.ThreadsRepository).Returns(threadsRepository.Object);
 
             var presenter = new CreateThreadPresenter(view.Object, forumData.Object)
@@ -130,9 +122,9 @@ namespace Forum.Tests.PresentersTests
             };
 
             var testContent = "TestContent Should be at least 50 characters long!";
-            view.Raise(v => v.Create += null, view.Object, new CreateThreadEventArgs("TestTitle", testContent, "TestSection"));
+            view.Raise(v => v.Create += null, view.Object, new ThreadEventArgs("TestTitle", testContent, "TestSection", 0));
 
-            server.Verify(s=>s.Transfer(It.Is<string>(x => x.Contains("Login")), true), Times.Once);
+            response.Verify(s=>s.Redirect(It.Is<string>(x => x.Contains("login"))), Times.Once);
         }
 
         [Test]
@@ -164,7 +156,7 @@ namespace Forum.Tests.PresentersTests
             var expectContent = "TestContent Should be at least 50 characters long!!";
             var testContent = "  TestContent Should be at least 50 characters long!!    ";
 
-            view.Raise(v => v.Create += null, view.Object, new CreateThreadEventArgs("TestTitle", testContent, "TestSection"));
+            view.Raise(v => v.Create += null, view.Object, new ThreadEventArgs("TestTitle", testContent, "TestSection", 1));
 
             threadsRepository.Verify(r => r.CreateThread(It.Is<Thread>(t => t.Contents == expectContent)));
         }
@@ -197,7 +189,7 @@ namespace Forum.Tests.PresentersTests
 
             var testContent = "TestContent Should be at least 50 characters long!!!";
 
-            view.Raise(v => v.Create += null, view.Object, new CreateThreadEventArgs("  TestTitle    ", testContent, "TestSection"));
+            view.Raise(v => v.Create += null, view.Object, new ThreadEventArgs("  TestTitle    ", testContent, "TestSection", 1));
 
             threadsRepository.Verify(r => r.CreateThread(It.Is<Thread>(t => t.Title == "TestTitle")));
         }
@@ -229,7 +221,7 @@ namespace Forum.Tests.PresentersTests
             };
 
             var testContent = "TestContent Should be at least 50 characters long!!!";
-            view.Raise(v => v.Create += null, view.Object, new CreateThreadEventArgs(title, testContent, "TestSection"));
+            view.Raise(v => v.Create += null, view.Object, new ThreadEventArgs(title, testContent, "TestSection", 1));
 
             server.Verify(s => s.Transfer(It.Is<string>(x=>x.Contains("ErrorPage")), true), Times.Once);
         }
@@ -260,7 +252,7 @@ namespace Forum.Tests.PresentersTests
                 HttpContext = httpContex.Object
             };
 
-            view.Raise(v => v.Create += null, view.Object, new CreateThreadEventArgs("TestTitle", content, "TestSection"));
+            view.Raise(v => v.Create += null, view.Object, new ThreadEventArgs("TestTitle", content, "TestSection", 1));
 
             server.Verify(s => s.Transfer(It.Is<string>(x => x.Contains("ErrorPage")), true), Times.Once);
         }
@@ -290,7 +282,7 @@ namespace Forum.Tests.PresentersTests
 
             var testContent = "TestContent Should be at least 50 characters long!!!";
 
-            view.Raise(v => v.Create += null, view.Object, new CreateThreadEventArgs("TestTitle", testContent, "TestSection"));
+            view.Raise(v => v.Create += null, view.Object, new ThreadEventArgs("TestTitle", testContent, "TestSection", 1));
 
             threadsRepository.Verify(r => r.CreateThread(It.Is<Thread>(t => t.IsVisible == true)));
         }
@@ -323,7 +315,7 @@ namespace Forum.Tests.PresentersTests
 
             var testContent = "TestContent Should be at least 50 characters long!!!";
 
-            view.Raise(v => v.Create += null, view.Object, new CreateThreadEventArgs("TestTitle", testContent, "TestSection"));
+            view.Raise(v => v.Create += null, view.Object, new ThreadEventArgs("TestTitle", testContent, "TestSection", 1));
 
             server.Verify(s => s.Transfer(It.Is<string>(x => x.Contains("500")), true));
         }

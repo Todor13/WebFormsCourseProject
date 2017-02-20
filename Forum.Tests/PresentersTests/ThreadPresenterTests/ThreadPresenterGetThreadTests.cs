@@ -3,6 +3,7 @@ using Forum.Data.Repositories;
 using Forum.Presenters;
 using Forum.Views;
 using Forum.Views.Events;
+using Forum.Views.ForumViews.EditViews;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -45,7 +46,7 @@ namespace Forum.Tests.PresentersTests
             forumData.Setup(t => t.ThreadsRepository.GetThreadById(It.IsAny<int>())).Returns(thread);
             forumData.Setup(a => a.AnswersRepository.GetAnswersByThreadId(It.IsAny<int>())).Returns(answers.AsQueryable);
 
-            view.Raise(v => v.GetThread += null, view.Object, new GetThreadEventArgs(1));
+            view.Raise(v => v.GetThread += null, view.Object, new GetByIdEventArgs(1));
 
             Assert.AreEqual(thread, view.Object.Model.Thread); 
         }
@@ -76,7 +77,7 @@ namespace Forum.Tests.PresentersTests
             forumData.Setup(t => t.ThreadsRepository.GetThreadById(It.IsAny<int>())).Returns(thread);
             forumData.Setup(a => a.AnswersRepository.GetAnswersByThreadId(It.IsAny<int>())).Returns(answers.AsQueryable);
 
-            view.Raise(v => v.GetThread += null, view.Object, new GetThreadEventArgs(1));
+            view.Raise(v => v.GetThread += null, view.Object, new GetByIdEventArgs(1));
 
             Assert.AreEqual(answers, view.Object.Model.Answers);
         }
@@ -107,7 +108,7 @@ namespace Forum.Tests.PresentersTests
             forumData.Setup(t => t.ThreadsRepository.GetThreadById(It.IsAny<int>())).Returns(thread);
             forumData.Setup(a => a.AnswersRepository.GetAnswersByThreadId(It.IsAny<int>())).Returns(answers.AsQueryable);
 
-            view.Raise(v => v.GetThread += null, view.Object, new GetThreadEventArgs(1));
+            view.Raise(v => v.GetThread += null, view.Object, new GetByIdEventArgs(1));
 
             Assert.AreEqual(null, view.Object.Model.Thread);
         }
@@ -138,7 +139,7 @@ namespace Forum.Tests.PresentersTests
             forumData.Setup(t => t.ThreadsRepository.GetThreadById(It.IsAny<int>())).Returns(thread);
             forumData.Setup(a => a.AnswersRepository.GetAnswersByThreadId(It.IsAny<int>())).Returns(answers.AsQueryable);
 
-            view.Raise(v => v.GetThread += null, view.Object, new GetThreadEventArgs(1));
+            view.Raise(v => v.GetThread += null, view.Object, new GetByIdEventArgs(1));
 
             Assert.IsInstanceOf<IEnumerable>(view.Object.Model.Answers);
             Assert.AreEqual(0, view.Object.Model.Answers.Count());

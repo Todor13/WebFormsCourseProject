@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Forum.Data.Repositories
 {
@@ -11,5 +8,6 @@ namespace Forum.Data.Repositories
         IQueryable<Thread> GetAllThreads();
         void CreateThread(Thread thread);
         Thread GetThreadById(int id);
+        void UpdateThread(Thread thread);
     }
 }

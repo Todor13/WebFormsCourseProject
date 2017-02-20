@@ -257,11 +257,13 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Forum\CreateThread.aspx" />
+    <Content Include="Forum\Edit\AnswerEdit.aspx" />
+    <Content Include="Forum\Edit\CommentEdit.aspx" />
+    <Content Include="Forum\Edit\ThreadEdit.aspx" />
     <Content Include="Forum\Forum.master" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Forum\Home.aspx" />
     <Content Include="Forum\Search.aspx" />
-    <Content Include="Forum\Test.aspx" />
     <Content Include="Forum\Thread.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -494,6 +496,27 @@
     <Compile Include="Forum\CreateThread.aspx.designer.cs">
       <DependentUpon>CreateThread.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Forum\Edit\AnswerEdit.aspx.cs">
+      <DependentUpon>AnswerEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Forum\Edit\AnswerEdit.aspx.designer.cs">
+      <DependentUpon>AnswerEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Forum\Edit\CommentEdit.aspx.cs">
+      <DependentUpon>CommentEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Forum\Edit\CommentEdit.aspx.designer.cs">
+      <DependentUpon>CommentEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Forum\Edit\ThreadEdit.aspx.cs">
+      <DependentUpon>ThreadEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Forum\Edit\ThreadEdit.aspx.designer.cs">
+      <DependentUpon>ThreadEdit.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Forum\Forum.master.cs">
       <DependentUpon>Forum.master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -515,13 +538,6 @@
     <Compile Include="Forum\Search.aspx.designer.cs">
       <DependentUpon>Search.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Forum\Test.aspx.cs">
-      <DependentUpon>Test.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Forum\Test.aspx.designer.cs">
-      <DependentUpon>Test.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Forum\Thread.aspx.cs">
       <DependentUpon>Thread.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -541,21 +557,7 @@
       <DependentUpon>201702020726287_Updated.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Presenters\ForumHomePresenter.cs" />
-    <Compile Include="Presenters\SearchForumPresenter.cs" />
-    <Compile Include="Presenters\ThreadPresenter.cs" />
-    <Compile Include="Views\Events\CommentAnswerEventArgs.cs" />
-    <Compile Include="Views\Events\AnswerThreadEventArgs.cs" />
-    <Compile Include="Views\Events\CreateThreadEventArgs.cs" />
-    <Compile Include="Views\Events\ForumHomeEventArgs.cs" />
-    <Compile Include="Views\Events\GetThreadEventArgs.cs" />
-    <Compile Include="Views\Events\SearchForumEventArgs.cs" />
-    <Compile Include="Views\IForumHomeView.cs" />
-    <Compile Include="Views\ISearchForumView.cs" />
-    <Compile Include="Views\IThreadView.cs" />
-    <Compile Include="Views\Models\CreateThreadViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Presenters\CreateThreadPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
@@ -579,10 +581,6 @@
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Views\ICreateThreadView.cs" />
-    <Compile Include="Views\Models\ForumHomeViewModel.cs" />
-    <Compile Include="Views\Models\SearchForumViewModel.cs" />
-    <Compile Include="Views\Models\ThreadViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -596,9 +594,17 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Forum.Common\Forum.Common.csproj">
+      <Project>{a98b6e8c-cb7c-468a-97d8-3a069bcb69ab}</Project>
+      <Name>Forum.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Forum.Data\Forum.Data.csproj">
       <Project>{223f0cdb-3e25-45a1-9f18-475c27ef05b2}</Project>
       <Name>Forum.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Forum.MVP\Forum.MVP.csproj">
+      <Project>{247788ff-ef23-44a2-a805-48d8a1e4fecf}</Project>
+      <Name>Forum.MVP</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

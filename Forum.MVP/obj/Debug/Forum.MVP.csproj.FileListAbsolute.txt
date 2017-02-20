@@ -1,0 +1,14 @@
+F:\Web\Projects\Forum\Forum.MVP\obj\Debug\Forum.MVP.csprojResolveAssemblyReference.cache
+F:\Web\Projects\Forum\Forum.MVP\bin\Debug\Forum.MVP.dll
+F:\Web\Projects\Forum\Forum.MVP\bin\Debug\Forum.MVP.pdb
+F:\Web\Projects\Forum\Forum.MVP\bin\Debug\Forum.Common.dll
+F:\Web\Projects\Forum\Forum.MVP\bin\Debug\Forum.Data.dll
+F:\Web\Projects\Forum\Forum.MVP\bin\Debug\WebFormsMvp.dll
+F:\Web\Projects\Forum\Forum.MVP\bin\Debug\EntityFramework.dll
+F:\Web\Projects\Forum\Forum.MVP\bin\Debug\Forum.Common.pdb
+F:\Web\Projects\Forum\Forum.MVP\bin\Debug\Forum.Data.pdb
+F:\Web\Projects\Forum\Forum.MVP\bin\Debug\WebFormsMvp.pdb
+F:\Web\Projects\Forum\Forum.MVP\bin\Debug\WebFormsMvp.xml
+F:\Web\Projects\Forum\Forum.MVP\bin\Debug\EntityFramework.xml
+F:\Web\Projects\Forum\Forum.MVP\obj\Debug\Forum.MVP.dll
+F:\Web\Projects\Forum\Forum.MVP\obj\Debug\Forum.MVP.pdb

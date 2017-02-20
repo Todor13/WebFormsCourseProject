@@ -2,11 +2,6 @@
 using Forum.Views;
 using Forum.Views.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using WebFormsMvp;
 using WebFormsMvp.Web;
 using Forum.Views.Events;
@@ -20,7 +15,6 @@ namespace Forum.Forum
 
         protected void Page_Load(object sender, EventArgs e)
         {
-           
             int page;
 
             if (int.TryParse(this.Request.QueryString["page"], out page))

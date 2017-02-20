@@ -39,7 +39,7 @@ namespace Forum.Tests.PresentersTests.ThreadPresenterTests
                 HttpContext = httpContext.Object
             };
 
-            view.Raise(v => v.Answer += null, view.Object, new AnswerThreadEventArgs(testContent, 1));
+            view.Raise(v => v.Answer += null, view.Object, new ReplyEventArgs(1, 1, testContent));
 
             answersRepository.Verify(r => r.CreateAnswer(It.Is<Answer>(a => a.Contents == testContent)));
         }
@@ -68,7 +68,7 @@ namespace Forum.Tests.PresentersTests.ThreadPresenterTests
             };
 
             var testContent = "ThereAre51CharactersWhichIsMinimumForAnswerrrrrrrrr";
-            view.Raise(v => v.Answer += null, view.Object, new AnswerThreadEventArgs(testContent, 1));
+            view.Raise(v => v.Answer += null, view.Object, new ReplyEventArgs(1, 0, testContent));
 
             response.Verify(r => r.Redirect(It.Is<string>(s => s.Contains("login"))));
         }
@@ -96,7 +96,7 @@ namespace Forum.Tests.PresentersTests.ThreadPresenterTests
                 HttpContext = httpContext.Object
             };
 
-            view.Raise(v => v.Answer += null, view.Object, new AnswerThreadEventArgs(testContent, 1));
+            view.Raise(v => v.Answer += null, view.Object, new ReplyEventArgs(1, 1, testContent));
 
             server.Verify(s => s.Transfer(It.Is<string>(x => x.Contains("ErrorPage")), true));
         }
@@ -125,7 +125,7 @@ namespace Forum.Tests.PresentersTests.ThreadPresenterTests
             var expectedContent = "TestContent Should be at least 50 characters long!!";
             var testContent = "  TestContent Should be at least 50 characters long!!    ";
 
-            view.Raise(v => v.Answer += null, view.Object, new AnswerThreadEventArgs(testContent, 1));
+            view.Raise(v => v.Answer += null, view.Object, new ReplyEventArgs(1, 1, testContent));
 
             answersRepository.Verify(r => r.CreateAnswer(It.Is<Answer>(a => a.Contents == expectedContent)));
         }
@@ -153,7 +153,7 @@ namespace Forum.Tests.PresentersTests.ThreadPresenterTests
 
             var testContent = "TestContent Should be at least 50 characters long!!";
 
-            view.Raise(v => v.Answer += null, view.Object, new AnswerThreadEventArgs(testContent, 3));
+            view.Raise(v => v.Answer += null, view.Object, new ReplyEventArgs(3, 1, testContent));
 
             answersRepository.Verify(r => r.CreateAnswer(It.Is<Answer>(a => a.ThreadId == 3)));
         }
@@ -181,7 +181,7 @@ namespace Forum.Tests.PresentersTests.ThreadPresenterTests
 
             var testContent = "TestContent Should be at least 50 characters long!!";
 
-            view.Raise(v => v.Answer += null, view.Object, new AnswerThreadEventArgs(testContent, 3));
+            view.Raise(v => v.Answer += null, view.Object, new ReplyEventArgs(3, 1, testContent));
 
             answersRepository.Verify(r => r.CreateAnswer(It.Is<Answer>(a => a.IsVisible == true)));
         }
@@ -211,7 +211,7 @@ namespace Forum.Tests.PresentersTests.ThreadPresenterTests
 
             var testContent = "TestContent Should be at least 50 characters long!!";
 
-            view.Raise(v => v.Answer += null, view.Object, new AnswerThreadEventArgs(testContent, 1));
+            view.Raise(v => v.Answer += null, view.Object, new ReplyEventArgs(1, 1, testContent));
 
             server.Verify(s => s.Transfer(It.Is<string>(x => x.Contains("500")), true));
         }

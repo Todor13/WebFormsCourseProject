@@ -7,6 +7,8 @@ using WebFormsMvp.Web;
 using Forum.Views.Events;
 using Forum.Views.Models;
 using System.Web.UI.WebControls;
+using Microsoft.AspNet.Identity;
+using Forum.Views.ForumViews.EditViews;
 
 namespace Forum.Forum
 {
@@ -14,9 +16,10 @@ namespace Forum.Forum
     public partial class Thread : MvpPage<ThreadViewModel>, IThreadView
     {
         private const string ThreadString = "Thread";
-        public event EventHandler<AnswerThreadEventArgs> Answer;
-        public event EventHandler<GetThreadEventArgs> GetThread;
-        public event EventHandler<CommentAnswerEventArgs> Comment;
+
+        public event EventHandler<ReplyEventArgs> Answer;
+        public event EventHandler<GetByIdEventArgs> GetThread;
+        public event EventHandler<ReplyEventArgs> Comment;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -24,8 +27,12 @@ namespace Forum.Forum
             int threadId;
 
             threadId = Convert.ToInt32(id);
-            this.GetThread?.Invoke(sender, new GetThreadEventArgs(threadId));
+            this.GetThread?.Invoke(sender, new GetByIdEventArgs(threadId));
 
+            if (this.Model.Thread.UserId == this.User.Identity.GetUserId<int>())
+            {
+                this.HyperLinkThreadEdit.Visible = true;
+            }
         }
 
         protected void AnswerButton_Click(object sender, EventArgs e)
@@ -41,7 +48,17 @@ namespace Forum.Forum
                 var id = Page.RouteData.Values["id"];
                 int threadId;
                 threadId = Convert.ToInt32(id);
-                this.Answer?.Invoke(sender, new AnswerThreadEventArgs(this.TextBoxAnswer.Text, threadId));
+                var userId = User.Identity.GetUserId<int>();
+
+                if (userId != 0)
+                {
+                    this.Answer?.Invoke(sender, new ReplyEventArgs(threadId, userId, this.TextBoxAnswer.Text));
+                }
+                else
+                {
+                    Response.Redirect("~/account/login");
+                }
+                
 
                 this.AnswerPanel.Visible = false;
                 this.TextBoxAnswer.Text = string.Empty;
@@ -63,9 +80,9 @@ namespace Forum.Forum
 
             if (e.CommandName == "CancelComment")
             {
-                ViewState["CurrentAnswerId"] = string.Empty;
-                ViewState["RepeaterId"] = string.Empty;
-                ViewState["CommentText"] = string.Empty;
+                ViewState["CurrentAnswerId"] = null;
+                ViewState["RepeaterId"] = null;
+                ViewState["CommentText"] = null;
             }
 
             if (e.CommandName == "PublishComment")
@@ -76,20 +93,36 @@ namespace Forum.Forum
                 if (Page.IsValid && ViewState["CurrentAnswerId"] != null)
                 {
                     var answerId = Convert.ToInt32(ViewState["CurrentAnswerId"]);
-                    this.Comment?.Invoke(sender, new CommentAnswerEventArgs(answerId, textBoxComment.Text));
-                    ViewState["CurrentAnswerId"] = string.Empty;
-                    ViewState["RepeaterId"] = string.Empty;
-                    ViewState["CommentText"] = string.Empty;
+                    var userId = User.Identity.GetUserId<int>();
+
+                    if (userId != 0)
+                    {
+                        this.Comment?.Invoke(sender, new ReplyEventArgs(answerId, userId, textBoxComment.Text));
+                    }
+                    else
+                    {
+                        Response.Redirect("~/account/login");
+                    }
+                    
+                    ViewState["CurrentAnswerId"] = null;
+                    ViewState["RepeaterId"] = null;
+                    ViewState["CommentText"] = null;
                 }
             }
         }
 
-
         protected void ListViewAnswers_ItemDataBound(object sender, ListViewItemEventArgs e)
         {
-            Repeater repeater = (Repeater)e.Item.FindControl("RepeaterComment");
+            ListView listViewComments = (ListView)e.Item.FindControl("RepeaterComment");
             Data.Answer answer = ((Data.Answer)e.Item.DataItem);
-            repeater.DataSource = answer.Comments;
+            listViewComments.DataSource = answer.Comments;
+
+            HyperLink answerEditLink = (HyperLink)e.Item.FindControl("HyperLinkAnswerEdit");
+
+            if (answer.UserId == User.Identity.GetUserId<int>())
+            {
+                answerEditLink.Visible = true;
+            }
 
             if (ViewState["RepeaterId"] != null && e.Item.ID == (string)ViewState["RepeaterId"])
             {
@@ -103,11 +136,11 @@ namespace Forum.Forum
 
                 regExpValidator.ControlToValidate = tb.ID;
                 regExpValidator.Validate();
-                repeater.DataBind();
+                listViewComments.DataBind();
             }
             else
             {
-                repeater.DataBind();
+                listViewComments.DataBind();
             }
         }
     }

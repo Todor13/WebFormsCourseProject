@@ -2,7 +2,8 @@
 
 <%@ Register Src="~/Controls/Reply.ascx" TagName="Reply" TagPrefix="uc" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="ForumMainContent" runat="server">
-    <h3><%#:  Model.Thread.Title %></h3>
+    <h3><%#: Model.Thread.Title %></h3>
+    <asp:HyperLink runat="server" ID="HyperLinkThreadEdit" NavigateUrl='<%# GetRouteUrl("ForumThreadEdit", new {id = Model.Thread.Id}) %>' Text="Edit" Visible="false" />
     <hr />
     <table border="0">
         <tr>
@@ -10,19 +11,21 @@
         </tr>
         <tr>
             <td>Published by <%#: Model.Thread.AspNetUser.Email %> on
-                    <%#: String.Format("{0:dd/MMMM/yyyy H:mm:ss}", Model.Thread.Published) %> in 
+                    <%#: String.Format("{0:dd MMMM yyyy H:mm:ss}", Model.Thread.Published.ToLocalTime()) %> in 
                     <%#: Model.Thread.Section.Name %></td>
             <td>
-                <asp:Button runat="server" ID="AnswerButton" Text="Answer" OnClick="AnswerButton_Click" /></td>
+                <asp:Button runat="server" ID="AnswerButton" Text="Answer" OnClick="AnswerButton_Click" />
+            </td>
         </tr>
     </table>
+
     <asp:UpdatePanel runat="server" ID="UpdatePanelAnswer" UpdateMode="Conditional">
         <ContentTemplate>
             <asp:Panel runat="server" ID="AnswerPanel" Visible="false">
                 <h4>Add Answer</h4>
                 <br />
-                 <asp:RequiredFieldValidator ID="RequiredFieldAnswer" runat="server" ErrorMessage="Answer is empty!"
-                                            ControlToValidate="TextBoxAnswer" Display="Dynamic" ForeColor="DarkRed" EnableClientScript="false"></asp:RequiredFieldValidator>
+                <asp:RequiredFieldValidator ID="RequiredFieldAnswer" runat="server" ErrorMessage="Answer is empty!"
+                    ControlToValidate="TextBoxAnswer" Display="Dynamic" ForeColor="DarkRed" EnableClientScript="false"></asp:RequiredFieldValidator>
                 <asp:RegularExpressionValidator ID="RegularExpressionValidatorContent" EnableClientScript="false" ControlToValidate="TextBoxAnswer"
                     ValidationExpression="^.{50,2500}$" runat="server" ForeColor="DarkRed"
                     ErrorMessage="Answer length must be between 50 and 2500 characters long!"></asp:RegularExpressionValidator>
@@ -47,10 +50,6 @@
                     <asp:PlaceHolder runat="server" ID="itemPlaceholder"></asp:PlaceHolder>
                 </LayoutTemplate>
 
-                <ItemSeparatorTemplate>
-                    <hr />
-                </ItemSeparatorTemplate>
-
                 <ItemTemplate>
                     <div class="answers">
                         <table border="0">
@@ -61,22 +60,28 @@
                                 <td>
                                     <div>
                                         Answered by <%#: Item.AspNetUser.Email %> on
-                    <%#: String.Format("{0:dd/MMMM/yyyy H:mm:ss}", Item.Published) %>
+                    <%#: String.Format("{0:dd MMMM yyyy H:mm:ss}", Item.Published.ToLocalTime()) %>
                                     </div>
+                                    <asp:HyperLink runat="server" ID="HyperLinkAnswerEdit" NavigateUrl='<%#string.Concat("~/forum/edit/answers/", Item.Id)%>' Text="Edit" Visible="false" />
                                 </td>
                             </tr>
-                            <asp:Repeater runat="server" ID="RepeaterComment" ItemType="Forum.Data.Comment">
+                            <asp:ListView runat="server" ID="RepeaterComment" ItemType="Forum.Data.Comment">
+                                <LayoutTemplate>
+                                    <asp:PlaceHolder runat="server" ID="itemPlaceholder"></asp:PlaceHolder>
+                                </LayoutTemplate>
+
                                 <ItemTemplate>
                                     <tr>
                                         <td style="padding-left: 5em">
                                             <div class="comment">
                                                 <p><%#: Item.Contents %></p>
-                                                <p>Commented by <%#: Item.AspNetUser.UserName %> on <%#: Item.Published %></p>
+                                                <p>Commented by <%#: Item.AspNetUser.UserName %> on <%#:  String.Format("{0:dd MMMM yyyy H:mm:ss}", Item.Published.ToLocalTime()) %></p>
+
                                             </div>
                                         </td>
                                     </tr>
                                 </ItemTemplate>
-                            </asp:Repeater>
+                            </asp:ListView>
                             <tr>
                                 <td>
                                     <asp:Button runat="server" CommandName="Comment" ID="ButtonComment" Text="Comment" UseSubmitBehavior="false" /></td>
@@ -104,7 +109,6 @@
                     </div>
                 </ItemTemplate>
             </asp:ListView>
-
 
             <asp:DataPager ID="DataPagerAnswers" runat="server"
                 PagedControlID="ListViewAnswers" PageSize="3"

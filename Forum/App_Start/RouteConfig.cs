@@ -18,6 +18,17 @@ namespace Forum
                "Forum/Threads/{id}",
                "~/Forum/Thread.aspx");
 
+            routes.MapPageRoute("ForumThreadEdit",
+               "Forum/Edit/Threads/{id}",
+               "~/Forum/Edit/ThreadEdit.aspx");
+
+            routes.MapPageRoute("ForumAnswerEdit",
+               "Forum/Edit/Answers/{id}",
+               "~/Forum/Edit/AnswerEdit.aspx", true);
+
+            routes.MapPageRoute("ForumCommentEdit",
+            "Forum/Edit/Comments/{id}",
+            "~/Forum/Edit/CommentEdit.aspx");
         }
 
            

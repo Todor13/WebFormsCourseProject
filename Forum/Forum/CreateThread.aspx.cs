@@ -5,6 +5,7 @@ using WebFormsMvp;
 using WebFormsMvp.Web;
 using Forum.Views.Events;
 using Forum.Views.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Forum.Forum
 {
@@ -16,7 +17,7 @@ namespace Forum.Forum
         protected const int ContentMinLength = Common.Constants.ContentMinLength;
         protected const int ContentMaxLength = Common.Constants.ContentMaxLength;
 
-        public event EventHandler<CreateThreadEventArgs> Create;
+        public event EventHandler<ThreadEventArgs> Create;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -30,10 +31,18 @@ namespace Forum.Forum
                 var title = this.TextBoxTitle.Text;
                 var content = this.TextBoxContent.Text;
                 var section = this.DropDownSections.SelectedItem.Text;
+                var userId = this.User.Identity.GetUserId<int>();
 
-                this.Create?.Invoke(sender, new CreateThreadEventArgs(title, content, section));
+                if (userId != 0)
+                {
+                    this.Create?.Invoke(sender, new ThreadEventArgs(title, content, section, userId));
+                    Response.Redirect("~/forum/home");
+                }
+                else
+                {
+                    Response.Redirect("~/account/login");
+                } 
             }
-            
         }
     }
 }

@@ -2,6 +2,7 @@
 
 <asp:Content ContentPlaceHolderID="ForumMainContent" ID="CreateThreadContent" runat="server">
     <h2>Create Thread</h2>
+    <asp:Label runat="server" ID="LabelError" Text="<%# Model.Error %>" />
     <hr />
     <asp:Label ID="LabelTitle" Font-Size="Large" runat="server" Text="Title"></asp:Label>
     <asp:RequiredFieldValidator ID="RequiredFieldValidatorTitle" Display="Dynamic" ControlToValidate="TextBoxTitle"
