@@ -1,4 +1,6 @@
-﻿using Forum.Data;
+﻿using Forum.Common;
+using Forum.Data;
+using Forum.MVP.Helpers;
 using Forum.Views.ForumViews.EditViews;
 using System;
 using System.Web;
@@ -21,23 +23,15 @@ namespace Forum.Presenters.ForumPresenters.EditPresenters
 
         private void EditAnswer(object sender, ContentEventArgs e)
         {
-            //if (HttpContext.User.Identity.GetUserId<int>() != this.currentAnswer.UserId &&
-            //  !HttpContext.User.IsInRole("admin"))
-            //{
-            //    HttpContext.Response.Redirect("~/Errors/ErrorPage", true);
-            //    return;
-            //}
-
             var content = e.Content.Trim();
 
-            if (content.Length > Common.GlobalConstants.ContentMinLength &&
-                content.Length < Common.GlobalConstants.ContentMaxLength)
+            if (Validator.IsContentValid(content))
             {
                 this.currentAnswer.Contents = content;
             }
             else
             {
-               // HttpContext.Response.Redirect("~/Errors/ErrorPage", true);
+                this.View.Model.Error = $"Content must be between {GlobalConstants.ContentMinLength} and {GlobalConstants.ContentMaxLength} characters long!";
                 return;
             }
 
@@ -48,7 +42,8 @@ namespace Forum.Presenters.ForumPresenters.EditPresenters
             }
             catch (Exception)
             {
-                //throw new HttpException(500, "Internal Server Error");
+                this.View.Model.Error = "Something went wrong!";
+                return;
             }
         }
 
@@ -56,20 +51,16 @@ namespace Forum.Presenters.ForumPresenters.EditPresenters
         {
             var answer = this.forumData.AnswersRepository.GetAnswerById(e.Id);
 
-            //if (answer.IsVisible == true && answer.UserId == HttpContext.User.Identity.GetUserId<int>())
-            //{
-            //    this.View.Model.Answer = answer;
-            //    this.currentAnswer = answer;
-            //}
-            //else if (HttpContext.User.IsInRole("admin"))
-            //{
-            //    this.View.Model.Answer = answer;
-            //    this.currentAnswer = answer;
-            //}
-            //else
-            //{
-            //    throw new HttpException(404, "Not found");
-            //}
+            if (answer.IsVisible == true)
+            {
+                this.View.Model.Answer = answer;
+                this.currentAnswer = answer;
+            }
+            else
+            {
+                this.View.Model.Error = "File not found!";
+                return;
+            }
         }
     }
 }

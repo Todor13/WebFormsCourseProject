@@ -1,12 +1,10 @@
 ﻿using Forum.Common;
 using Forum.Data;
 using Forum.MVP.Helpers;
-using Forum.Views.Events;
 using Forum.Views.Events.ForumEvents.EditEvents;
 using Forum.Views.ForumViews.EditViews;
 using System;
 using System.Linq;
-using System.Web;
 using WebFormsMvp;
 
 namespace Forum.Presenters.EditPresenters

@@ -13,6 +13,33 @@ namespace Forum.Forum.Edit {
     public partial class ThreadEdit {
         
         /// <summary>
+        /// LabelError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelError;
+        
+        /// <summary>
+        /// RequiredFieldValidatorTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidatorTitle;
+        
+        /// <summary>
+        /// RegularExpressionValidatorTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidatorTitle;
+        
+        /// <summary>
         /// TextBoxThreadTitle control.
         /// </summary>
         /// <remarks>
@@ -20,6 +47,24 @@ namespace Forum.Forum.Edit {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TextBoxThreadTitle;
+        
+        /// <summary>
+        /// RequiredFieldContent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldContent;
+        
+        /// <summary>
+        /// RegularExpressionValidatorContent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidatorContent;
         
         /// <summary>
         /// TextBoxThreadContent control.

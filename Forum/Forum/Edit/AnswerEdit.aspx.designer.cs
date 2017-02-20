@@ -13,6 +13,33 @@ namespace Forum.Forum.Edit {
     public partial class AnswerEdit {
         
         /// <summary>
+        /// LabelError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelError;
+        
+        /// <summary>
+        /// RequiredFieldContent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldContent;
+        
+        /// <summary>
+        /// RegularExpressionValidatorContent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidatorContent;
+        
+        /// <summary>
         /// TextBoxAnswerContent control.
         /// </summary>
         /// <remarks>

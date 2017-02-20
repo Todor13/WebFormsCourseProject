@@ -9,6 +9,7 @@ using Forum.Views.Models;
 using System.Web.UI.WebControls;
 using Microsoft.AspNet.Identity;
 using Forum.Views.ForumViews.EditViews;
+using Forum.Data;
 
 namespace Forum.Forum
 {
@@ -141,6 +142,22 @@ namespace Forum.Forum
             else
             {
                 listViewComments.DataBind();
+            }
+        }
+
+        protected bool IsVisible(Comment comment)
+        {
+            if (comment.UserId == User.Identity.GetUserId<int>())
+            {
+                return true;
+            }
+            else if (User.IsInRole("admin"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

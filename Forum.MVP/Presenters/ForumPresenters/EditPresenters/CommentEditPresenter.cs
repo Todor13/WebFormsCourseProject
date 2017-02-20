@@ -1,4 +1,6 @@
-﻿using Forum.Data;
+﻿using Forum.Common;
+using Forum.Data;
+using Forum.MVP.Helpers;
 using Forum.Views.ForumViews.EditViews;
 using System;
 using System.Web;
@@ -21,23 +23,15 @@ namespace Forum.Presenters.ForumPresenters.EditPresenters
 
         private void EditComment(object sender, ContentEventArgs e)
         {
-            //if (HttpContext.User.Identity.GetUserId<int>() != this.currentComment.UserId &&
-            //  !HttpContext.User.IsInRole("admin"))
-            //{
-            //    HttpContext.Response.Redirect("~/Errors/ErrorPage", true);
-            //    return;
-            //}
-
             var content = e.Content.Trim();
 
-            if (content.Length > Common.GlobalConstants.ContentMinLength &&
-                content.Length < Common.GlobalConstants.ContentMaxLength)
+            if (Validator.IsContentValid(content))
             {
                 this.currentComment.Contents = content;
             }
             else
             {
-                //HttpContext.Response.Redirect("~/Errors/ErrorPage", true);
+                this.View.Model.Error = $"Content must be between {GlobalConstants.ContentMinLength} and {GlobalConstants.ContentMaxLength} characters long!";
                 return;
             }
 
@@ -48,7 +42,8 @@ namespace Forum.Presenters.ForumPresenters.EditPresenters
             }
             catch (Exception)
             {
-                //throw new HttpException(500, "Internal Server Error");
+                this.View.Model.Error = "Something went wrong!";
+                return;
             }
         }
 
@@ -56,20 +51,16 @@ namespace Forum.Presenters.ForumPresenters.EditPresenters
         {
             var comment = this.forumData.CommentsRepository.GetCommentById(e.Id);
 
-            //if (comment.IsVisible == true && comment.UserId == HttpContext.User.Identity.GetUserId<int>())
-            //{
-            //    this.View.Model.Comment = comment;
-            //    this.currentComment = comment;
-            //}
-            //else if (HttpContext.User.IsInRole("admin"))
-            //{
-            //    this.View.Model.Comment = comment;
-            //    this.currentComment = comment;
-            //}
-            //else
-            //{
-            //    throw new HttpException(404, "Not found");
-            //}
+            if (comment.IsVisible == true)
+            {
+                this.View.Model.Comment = comment;
+                this.currentComment = comment;
+            }
+            else
+            {
+                this.View.Model.Error = "File not found!";
+                return;
+            }
         }
     }
 }

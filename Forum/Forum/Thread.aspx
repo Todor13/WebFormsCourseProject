@@ -62,7 +62,7 @@
                                         Answered by <%#: Item.AspNetUser.Email %> on
                     <%#: String.Format("{0:dd MMMM yyyy H:mm:ss}", Item.Published.ToLocalTime()) %>
                                     </div>
-                                    <asp:HyperLink runat="server" ID="HyperLinkAnswerEdit" NavigateUrl='<%#string.Concat("~/forum/edit/answers/", Item.Id)%>' Text="Edit" Visible="false" />
+                                    <asp:HyperLink runat="server" ID="HyperLinkAnswerEdit" NavigateUrl='<%# GetRouteUrl("ForumAnswerEdit", new { id = Item.Id })%>' Text="Edit" Visible="false" />
                                 </td>
                             </tr>
                             <asp:ListView runat="server" ID="RepeaterComment" ItemType="Forum.Data.Comment">
@@ -76,7 +76,7 @@
                                             <div class="comment">
                                                 <p><%#: Item.Contents %></p>
                                                 <p>Commented by <%#: Item.AspNetUser.UserName %> on <%#:  String.Format("{0:dd MMMM yyyy H:mm:ss}", Item.Published.ToLocalTime()) %></p>
-
+                                                <asp:HyperLink runat="server" ID="HyperLinkThreadEdit" NavigateUrl='<%# GetRouteUrl("ForumCommentEdit", new {id = Item.Id}) %>' Text="Edit" Visible="<%# IsVisible(Item) %>" />
                                             </div>
                                         </td>
                                     </tr>

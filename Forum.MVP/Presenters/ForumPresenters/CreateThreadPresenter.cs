@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using WebFormsMvp;
 using Forum.Views.Events;
-using System.Web;
 using Forum.Common;
 using Forum.MVP.Helpers;
 

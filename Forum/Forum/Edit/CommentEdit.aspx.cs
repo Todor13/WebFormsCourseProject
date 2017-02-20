@@ -1,12 +1,10 @@
 ﻿using Forum.Presenters.ForumPresenters.EditPresenters;
 using Forum.Views.ForumModels.ForumViewModels.EditViewModels;
 using Forum.Views.ForumViews.EditViews;
+using Microsoft.AspNet.Identity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 using WebFormsMvp;
 using WebFormsMvp.Web;
 
@@ -29,9 +27,22 @@ namespace Forum.Forum.Edit
 
         protected void LinkButtonSave_Click(object sender, EventArgs e)
         {
-            var content = this.TextBoxCommentContent.Text;
-            this.EditComment?.Invoke(sender, new ContentEventArgs(content));
-            Response.Redirect("~/forum/threads/" + Model.Comment.Answer.ThreadId);
+            if (Page.IsValid)
+            {
+                if (User.Identity.GetUserId<int>() != this.Model.Comment.UserId &&
+                !User.IsInRole("admin"))
+                {
+                    throw new HttpException(404, "File not found!");
+                }
+
+                var content = this.TextBoxCommentContent.Text;
+                this.EditComment?.Invoke(sender, new ContentEventArgs(content));
+
+                if (Model.Error == null)
+                {
+                    Response.Redirect("~/forum/threads/" + Model.Comment.Answer.ThreadId);
+                }
+            }
         }
     }
 }

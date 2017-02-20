@@ -3,7 +3,6 @@ using Forum.Views.Models.ForumViewModels.EditViewModels;
 using System;
 using System.Web.UI;
 using WebFormsMvp.Web;
-using Forum.Views.Events;
 using WebFormsMvp;
 using Forum.Presenters.EditPresenters;
 using Forum.Views.Events.ForumEvents.EditEvents;
@@ -20,30 +19,35 @@ namespace Forum.Forum.Edit
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (User.Identity.GetUserId<int>() != this.Model.Thread.UserId &&
-                !User.IsInRole("admin"))
-            {
-                throw new HttpException(404, "File not found!");
-            }
-            else
-            {
                 var id = Page.RouteData.Values["id"];
                 int threadId;
 
                 threadId = Convert.ToInt32(id);
                 this.GetThread?.Invoke(sender, new GetByIdEventArgs(threadId));
-            }
 
             //todo dropdown selecteditem
         }
 
         protected void LinkButtonSave_Click(object sender, EventArgs e)
         {
-            var title = this.TextBoxThreadTitle.Text;
-            var content = this.TextBoxThreadContent.Text;
-            var section = this.DropDownListSections.SelectedItem.Text;
-            this.EditThread?.Invoke(sender, new ThreadEditEventArgs(title, content, section));
-            Response.Redirect("~/forum/threads/" + Page.RouteData.Values["id"]);
+            if (Page.IsValid)
+            {
+                if (User.Identity.GetUserId<int>() != this.Model.Thread.UserId &&
+                !User.IsInRole("admin"))
+                {
+                    throw new HttpException(404, "File not found!");
+                }
+
+                var title = this.TextBoxThreadTitle.Text;
+                var content = this.TextBoxThreadContent.Text;
+                var section = this.DropDownListSections.SelectedItem.Text;
+                this.EditThread?.Invoke(sender, new ThreadEditEventArgs(title, content, section));
+
+                if (Model.Error == null)
+                {
+                    Response.Redirect("~/forum/threads/" + Page.RouteData.Values["id"]);
+                }
+            }
         }
     }
 }
