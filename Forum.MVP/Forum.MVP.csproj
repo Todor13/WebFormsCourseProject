@@ -55,6 +55,8 @@
     <Compile Include="Presenters\ForumPresenters\SearchForumPresenter.cs" />
     <Compile Include="Presenters\ForumPresenters\ThreadPresenter.cs" />
     <Compile Include="Presenters\HomePresenter.cs" />
+    <Compile Include="Presenters\UserPresenters\AllUsersPresenter.cs" />
+    <Compile Include="Presenters\UserPresenters\EditUserPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\Events\ForumEvents\EditEvents\ContentEventArgs.cs" />
     <Compile Include="Views\Events\ForumEvents\EditEvents\ThreadEditEventArgs.cs" />
@@ -78,6 +80,11 @@
     <Compile Include="Views\ForumViews\IForumHomeView.cs" />
     <Compile Include="Views\ForumViews\ISearchForumView.cs" />
     <Compile Include="Views\ForumViews\IThreadView.cs" />
+    <Compile Include="Views\UserModels\AllUsersViewModel.cs" />
+    <Compile Include="Views\UserModels\EditUserViewModel.cs" />
+    <Compile Include="Views\Events\UsersEventArgs\GetUserByIdEventArgs.cs" />
+    <Compile Include="Views\Events\UsersEventArgs\EditUserEventArgs.cs" />
+    <Compile Include="Views\UserViews\IEditUserView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -92,6 +99,7 @@
       <Name>Forum.Data</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

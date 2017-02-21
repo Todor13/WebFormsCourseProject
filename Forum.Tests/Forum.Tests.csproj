@@ -110,12 +110,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PresentersTests\CreateThreadPresenterTests.cs" />
-    <Compile Include="PresentersTests\ForumHomePresenterTests.cs" />
-    <Compile Include="PresentersTests\SearchForumPresenterTests.cs" />
-    <Compile Include="PresentersTests\ThreadPresenterTests\ThreadPresenterAnswerTests.cs" />
-    <Compile Include="PresentersTests\ThreadPresenterTests\ThreadPresenterCommentTests.cs" />
-    <Compile Include="PresentersTests\ThreadPresenterTests\ThreadPresenterGetThreadTests.cs" />
+    <Compile Include="PresentersTests\Forum\CreateThreadPresenterTests.cs" />
+    <Compile Include="PresentersTests\Forum\Edit\AnswerEditPresenterTests.cs" />
+    <Compile Include="PresentersTests\Forum\Edit\CommentEditPresenterTests.cs" />
+    <Compile Include="PresentersTests\Forum\Edit\ThredEditPresenterTests.cs" />
+    <Compile Include="PresentersTests\Forum\ForumHomePresenterTests.cs" />
+    <Compile Include="PresentersTests\Forum\SearchForumPresenterTests.cs" />
+    <Compile Include="PresentersTests\Forum\ThreadPresenterTests\ThreadPresenterAnswerTests.cs" />
+    <Compile Include="PresentersTests\Forum\ThreadPresenterTests\ThreadPresenterCommentTests.cs" />
+    <Compile Include="PresentersTests\Forum\ThreadPresenterTests\ThreadPresenterGetThreadTests.cs" />
+    <Compile Include="PresentersTests\HomePresenterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

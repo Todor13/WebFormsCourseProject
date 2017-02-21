@@ -19,11 +19,8 @@ namespace Forum.Forum.Edit
 
         protected void Page_Load(object sender, EventArgs e)
         {
-                var id = Page.RouteData.Values["id"];
-                int threadId;
-
-                threadId = Convert.ToInt32(id);
-                this.GetThread?.Invoke(sender, new GetByIdEventArgs(threadId));
+            int threadId = GetCurrentId();
+            this.GetThread?.Invoke(sender, new GetByIdEventArgs(threadId));
 
             //todo dropdown selecteditem
         }
@@ -41,12 +38,28 @@ namespace Forum.Forum.Edit
                 var title = this.TextBoxThreadTitle.Text;
                 var content = this.TextBoxThreadContent.Text;
                 var section = this.DropDownListSections.SelectedItem.Text;
-                this.EditThread?.Invoke(sender, new ThreadEditEventArgs(title, content, section));
+                var threadId = GetCurrentId();
+                this.EditThread?.Invoke(sender, new ThreadEditEventArgs(title, content, section, threadId));
 
                 if (Model.Error == null)
                 {
                     Response.Redirect("~/forum/threads/" + Page.RouteData.Values["id"]);
                 }
+            }
+        }
+
+        private int GetCurrentId()
+        {
+            int Id;
+            var id = Page.RouteData.Values["id"];
+            try
+            {
+                Id = Convert.ToInt32(id);
+                return Id;
+            }
+            catch (Exception)
+            {
+                throw new HttpException(404, "File Not Found!");
             }
         }
     }

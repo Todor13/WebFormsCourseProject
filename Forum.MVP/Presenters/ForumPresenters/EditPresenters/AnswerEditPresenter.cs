@@ -11,7 +11,6 @@ namespace Forum.Presenters.ForumPresenters.EditPresenters
     public class AnswerEditPresenter : Presenter<IAnswerEditView>
     {
         private readonly IForumData forumData;
-        private Answer currentAnswer;
 
         public AnswerEditPresenter(IAnswerEditView view, IForumData forumData) : base(view)
         {
@@ -23,11 +22,22 @@ namespace Forum.Presenters.ForumPresenters.EditPresenters
 
         private void EditAnswer(object sender, ContentEventArgs e)
         {
+            Answer answer;
+
+            try
+            {
+                answer = this.forumData.AnswersRepository.GetAnswerById(e.Id);
+            }
+            catch (Exception)
+            {
+                throw new HttpException(500, "Internal Server Error");
+            }
+
             var content = e.Content.Trim();
 
             if (Validator.IsContentValid(content))
             {
-                this.currentAnswer.Contents = content;
+                answer.Contents = content;
             }
             else
             {
@@ -37,13 +47,12 @@ namespace Forum.Presenters.ForumPresenters.EditPresenters
 
             try
             {
-                this.forumData.AnswersRepository.UpdateAnswer(this.currentAnswer);
+                this.forumData.AnswersRepository.UpdateAnswer(answer);
                 this.forumData.Save();
             }
             catch (Exception)
             {
-                this.View.Model.Error = "Something went wrong!";
-                return;
+                throw new HttpException(500, "Internal Server Error");
             }
         }
 
@@ -54,7 +63,6 @@ namespace Forum.Presenters.ForumPresenters.EditPresenters
             if (answer.IsVisible == true)
             {
                 this.View.Model.Answer = answer;
-                this.currentAnswer = answer;
             }
             else
             {

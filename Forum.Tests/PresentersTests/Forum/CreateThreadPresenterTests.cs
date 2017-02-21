@@ -42,7 +42,7 @@ namespace Forum.Tests.PresentersTests
 
             view.Raise(v => v.Load += null, new EventArgs());
 
-            Assert.AreEqual(expected, view.Object.Model.Sections);
+            CollectionAssert.AreEqual(expected, view.Object.Model.Sections);
         }
 
         [Test]

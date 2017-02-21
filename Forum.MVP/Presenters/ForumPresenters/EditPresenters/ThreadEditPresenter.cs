@@ -5,6 +5,7 @@ using Forum.Views.Events.ForumEvents.EditEvents;
 using Forum.Views.ForumViews.EditViews;
 using System;
 using System.Linq;
+using System.Web;
 using WebFormsMvp;
 
 namespace Forum.Presenters.EditPresenters
@@ -12,7 +13,6 @@ namespace Forum.Presenters.EditPresenters
     public class ThreadEditPresenter : Presenter<IThreadEditView>
     {
         private readonly IForumData forumData;
-        private Thread currentThread;
 
         public ThreadEditPresenter(IThreadEditView view, IForumData forumData) : base(view)
         {
@@ -24,11 +24,23 @@ namespace Forum.Presenters.EditPresenters
 
         private void EditThread(object sender, ThreadEditEventArgs e)
         {
+            Thread thread;
+
+            try
+            {
+                thread = this.forumData.ThreadsRepository.GetThreadById(e.ThreadId);
+            }
+            catch (Exception)
+            {
+                throw new HttpException(500, "Internal Server Error");
+            }
+            
+
             var title = e.Title.Trim();
 
             if (Validator.IsTitleValid(title))
             {
-                this.currentThread.Title = title;
+                thread.Title = title;
             }
             else
             {
@@ -40,7 +52,7 @@ namespace Forum.Presenters.EditPresenters
 
             if (Validator.IsContentValid(content))
             {
-                this.currentThread.Contents = content;
+                thread.Contents = content;
             }
             else
             {
@@ -57,24 +69,22 @@ namespace Forum.Presenters.EditPresenters
             }
             catch (Exception)
             {
-                this.View.Model.Error = "Something went wrong!";
-                return;
+                throw new HttpException(500, "Internal Server Error");
             }
 
             if (section != null)
             {
-                this.currentThread.Section = section;
+                thread.Section = section;
             }
 
             try
             {
-                this.forumData.ThreadsRepository.UpdateThread(this.currentThread);
+                this.forumData.ThreadsRepository.UpdateThread(thread);
                 this.forumData.Save();
             }
             catch (Exception)
             {
-                this.View.Model.Error = "Something went wrong!";
-                return;
+                throw new HttpException(500, "Internal Server Error");
             }
         }
 
@@ -85,7 +95,6 @@ namespace Forum.Presenters.EditPresenters
             if (thread.IsVisible == true)
             {
                 this.View.Model.Thread = thread;
-                this.currentThread = thread;
             }
             else
             {

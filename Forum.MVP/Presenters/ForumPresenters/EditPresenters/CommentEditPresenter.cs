@@ -11,7 +11,6 @@ namespace Forum.Presenters.ForumPresenters.EditPresenters
     public class CommentEditPresenter : Presenter<ICommentEditView>
     {
         private readonly IForumData forumData;
-        private Comment currentComment;
 
         public CommentEditPresenter(ICommentEditView view, IForumData forumData) : base(view)
         {
@@ -23,11 +22,22 @@ namespace Forum.Presenters.ForumPresenters.EditPresenters
 
         private void EditComment(object sender, ContentEventArgs e)
         {
+            Comment comment;
+
+            try
+            {
+                comment = this.forumData.CommentsRepository.GetCommentById(e.Id);
+            }
+            catch (Exception)
+            {
+                throw new HttpException(500, "Internal Server Error");
+            }
+
             var content = e.Content.Trim();
 
             if (Validator.IsContentValid(content))
             {
-                this.currentComment.Contents = content;
+                comment.Contents = content;
             }
             else
             {
@@ -37,13 +47,12 @@ namespace Forum.Presenters.ForumPresenters.EditPresenters
 
             try
             {
-                this.forumData.CommentsRepository.UpdateComment(this.currentComment);
+                this.forumData.CommentsRepository.UpdateComment(comment);
                 this.forumData.Save();
             }
             catch (Exception)
             {
-                this.View.Model.Error = "Something went wrong!";
-                return;
+                throw new HttpException(500, "Internal Server Error");
             }
         }
 
@@ -54,7 +63,6 @@ namespace Forum.Presenters.ForumPresenters.EditPresenters
             if (comment.IsVisible == true)
             {
                 this.View.Model.Comment = comment;
-                this.currentComment = comment;
             }
             else
             {

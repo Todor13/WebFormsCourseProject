@@ -95,8 +95,10 @@
     <Compile Include="Repositories\Contracts\ISectionsRepository.cs" />
     <Compile Include="Repositories\Contracts\ICommentsRepository.cs" />
     <Compile Include="Repositories\Contracts\IAnswersRepository.cs" />
+    <Compile Include="Repositories\Contracts\IUsersRepository.cs" />
     <Compile Include="Repositories\SectionsRepository.cs" />
     <Compile Include="Repositories\ThreadsRepository.cs" />
+    <Compile Include="Repositories\UsersRepository.cs" />
     <Compile Include="Section.cs">
       <DependentUpon>ForumDbEntities.tt</DependentUpon>
     </Compile>

@@ -23,7 +23,7 @@
     <asp:RequiredFieldValidator ID="RequiredFieldContent" runat="server" ErrorMessage=" is required!" 
         ControlToValidate="TextBoxContent" Display="Dynamic" ForeColor="DarkRed"></asp:RequiredFieldValidator>
     <asp:RegularExpressionValidator ID="RegularExpressionValidatorContent" ControlToValidate="TextBoxContent" 
-        ValidationExpression="^.{50,2500}$" runat="server" ForeColor="DarkRed" 
+        ValidationExpression="^.{50,}$" runat="server" ForeColor="DarkRed" 
         ErrorMessage=" length must be between 50 and 2500 characters long!"></asp:RegularExpressionValidator>
     <br />
     <asp:TextBox ID="TextBoxContent" runat="server" Width="100%" Height="15em" TextMode="MultiLine"></asp:TextBox>

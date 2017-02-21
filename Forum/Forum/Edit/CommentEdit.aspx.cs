@@ -18,10 +18,7 @@ namespace Forum.Forum.Edit
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            var id = Page.RouteData.Values["id"];
-            int commentId;
-
-            commentId = Convert.ToInt32(id);
+            var commentId = GetCurrentId();
             this.GetComment?.Invoke(sender, new GetByIdEventArgs(commentId));
         }
 
@@ -35,13 +32,29 @@ namespace Forum.Forum.Edit
                     throw new HttpException(404, "File not found!");
                 }
 
+                var commentId = GetCurrentId();
                 var content = this.TextBoxCommentContent.Text;
-                this.EditComment?.Invoke(sender, new ContentEventArgs(content));
+                this.EditComment?.Invoke(sender, new ContentEventArgs(commentId, content));
 
                 if (Model.Error == null)
                 {
                     Response.Redirect("~/forum/threads/" + Model.Comment.Answer.ThreadId);
                 }
+            }
+        }
+
+        private int GetCurrentId()
+        {
+            int Id;
+            var id = Page.RouteData.Values["id"];
+            try
+            {
+                Id = Convert.ToInt32(id);
+                return Id;
+            }
+            catch (Exception)
+            {
+                throw new HttpException(404, "File Not Found!");
             }
         }
     }
