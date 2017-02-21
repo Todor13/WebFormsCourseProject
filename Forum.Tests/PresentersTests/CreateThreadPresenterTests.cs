@@ -10,8 +10,6 @@ using System.Linq;
 using System.Web;
 using System.Security.Principal;
 using Forum.Data.Repositories;
-using Microsoft.AspNet.Identity;
-using System.Security.Claims;
 
 namespace Forum.Tests.PresentersTests
 {
@@ -42,7 +40,7 @@ namespace Forum.Tests.PresentersTests
             forumData.Setup(x => x.SectionsRepository.GetAllSections()).Returns(sections.AsQueryable);
             var presenter = new CreateThreadPresenter(view.Object, forumData.Object);
 
-            view.Raise(v => v.Load += null, view.Object, new EventArgs());
+            view.Raise(v => v.Load += null, new EventArgs());
 
             Assert.AreEqual(expected, view.Object.Model.Sections);
         }
@@ -57,15 +55,9 @@ namespace Forum.Tests.PresentersTests
             var user = new Mock<IPrincipal>();
             var threadsRepository = new Mock<IThreadsRepository>();
 
-            var claim = new Claim("test", "1");
-            var mockIdentity = new Mock<ClaimsIdentity>();
-
-            mockIdentity.Setup(ci => ci.FindFirst(It.IsAny<string>())).Returns(claim);
-
             var section = new Section() { Name = "TestSection" };
             forumData.Setup(s => s.SectionsRepository.GetSectionByName(It.IsAny<string>())).Returns(section);
             httpContex.Setup(c => c.User).Returns(user.Object);
-            user.Setup(u => u.Identity).Returns(mockIdentity.Object);
             forumData.Setup(f => f.ThreadsRepository).Returns(threadsRepository.Object);
 
             var presenter = new CreateThreadPresenter(view.Object, forumData.Object)
@@ -74,7 +66,7 @@ namespace Forum.Tests.PresentersTests
             };
 
             var testContent = "TestContent Should be at least 50 characters long!!!";
-            view.Raise(v => v.Create += null, view.Object, new ThreadEventArgs("TestTitle", testContent, "TestSection", 1));
+            view.Raise(v => v.Create += null, new ThreadEventArgs("TestTitle", testContent, "TestSection", 1));
 
             threadsRepository.Verify(t => t.CreateThread(It.Is<Thread>(x => x.Title == "TestTitle" && x.Contents == testContent && x.Section == section)));
         }
@@ -86,34 +78,26 @@ namespace Forum.Tests.PresentersTests
             view.SetupAllProperties();
             var forumData = new Mock<IForumData>();
             var sectionsRepository = new Mock<ISectionsRepository>();
-            var claim = new Claim("test", "1");
 
             sectionsRepository.Setup(r => r.GetSectionByName(It.IsAny<string>())).Throws(new Exception());
             forumData.Setup(f => f.SectionsRepository).Returns(sectionsRepository.Object);
 
             var presenter = new CreateThreadPresenter(view.Object, forumData.Object);
 
-            Assert.Throws<HttpException>(() => view.Raise(v => v.Create += null, view.Object, new ThreadEventArgs("TestTitle", "TestContent", "TestSection", 1)));
+            Assert.Throws<HttpException>(() => view.Raise(v => v.Create += null, new ThreadEventArgs("TestTitle", "TestContent", "TestSection", 1)));
         }
 
         [Test]
-        public void CreateThreadPresenter_ShouldRedirectToLoginWhenThereIsNoUser()
+        public void CreateThreadPresenter_ShouldReturnErrorMessageWhenThereIsNoUser()
         {
             var view = new Mock<ICreateThreadView>();
             view.SetupAllProperties();
             var httpContex = new Mock<HttpContextBase>();
             var forumData = new Mock<IForumData>();
             var threadsRepository = new Mock<IThreadsRepository>();
-            var response = new Mock<HttpResponseBase>();
-            var claim = new Claim("test", "0");
-            var identity = new Mock<ClaimsIdentity>();
-
-            identity.Setup(ci => ci.FindFirst(It.IsAny<string>())).Returns(claim);
 
             var section = new Section() { Name = "TestSection" };
             forumData.Setup(s => s.SectionsRepository.GetSectionByName(It.IsAny<string>())).Returns(section);
-            httpContex.Setup(c => c.User.Identity).Returns(identity.Object);
-            httpContex.Setup(h => h.Response).Returns(response.Object);
             forumData.Setup(f => f.ThreadsRepository).Returns(threadsRepository.Object);
 
             var presenter = new CreateThreadPresenter(view.Object, forumData.Object)
@@ -122,9 +106,9 @@ namespace Forum.Tests.PresentersTests
             };
 
             var testContent = "TestContent Should be at least 50 characters long!";
-            view.Raise(v => v.Create += null, view.Object, new ThreadEventArgs("TestTitle", testContent, "TestSection", 0));
+            view.Raise(v => v.Create += null, new ThreadEventArgs("TestTitle", testContent, "TestSection", 0));
 
-            response.Verify(s=>s.Redirect(It.Is<string>(x => x.Contains("login"))), Times.Once);
+            Assert.AreEqual("Please, log in!", view.Object.Model.Error);
         }
 
         [Test]
@@ -132,31 +116,19 @@ namespace Forum.Tests.PresentersTests
         {
             var view = new Mock<ICreateThreadView>();
             view.SetupAllProperties();
-            var httpContex = new Mock<HttpContextBase>();
             var forumData = new Mock<IForumData>();
-            var user = new Mock<IPrincipal>();
             var threadsRepository = new Mock<IThreadsRepository>();
-
-            var claim = new Claim("test", "1");
-            var mockIdentity = new Mock<ClaimsIdentity>();
-
-            mockIdentity.Setup(ci => ci.FindFirst(It.IsAny<string>())).Returns(claim);
 
             var section = new Section() { Name = "TestSection" };
             forumData.Setup(s => s.SectionsRepository.GetSectionByName(It.IsAny<string>())).Returns(section);
-            httpContex.Setup(c => c.User).Returns(user.Object);
-            user.Setup(u => u.Identity).Returns(mockIdentity.Object);
             forumData.Setup(f => f.ThreadsRepository).Returns(threadsRepository.Object);
 
-            var presenter = new CreateThreadPresenter(view.Object, forumData.Object)
-            {
-                HttpContext = httpContex.Object
-            };
+            var presenter = new CreateThreadPresenter(view.Object, forumData.Object);
 
             var expectContent = "TestContent Should be at least 50 characters long!!";
             var testContent = "  TestContent Should be at least 50 characters long!!    ";
 
-            view.Raise(v => v.Create += null, view.Object, new ThreadEventArgs("TestTitle", testContent, "TestSection", 1));
+            view.Raise(v => v.Create += null, new ThreadEventArgs("TestTitle", testContent, "TestSection", 1));
 
             threadsRepository.Verify(r => r.CreateThread(It.Is<Thread>(t => t.Contents == expectContent)));
         }
@@ -166,64 +138,41 @@ namespace Forum.Tests.PresentersTests
         {
             var view = new Mock<ICreateThreadView>();
             view.SetupAllProperties();
-            var httpContex = new Mock<HttpContextBase>();
             var forumData = new Mock<IForumData>();
-            var user = new Mock<IPrincipal>();
             var threadsRepository = new Mock<IThreadsRepository>();
-
-            var claim = new Claim("test", "1");
-            var mockIdentity = new Mock<ClaimsIdentity>();
-
-            mockIdentity.Setup(ci => ci.FindFirst(It.IsAny<string>())).Returns(claim);
 
             var section = new Section() { Name = "TestSection" };
             forumData.Setup(s => s.SectionsRepository.GetSectionByName(It.IsAny<string>())).Returns(section);
-            httpContex.Setup(c => c.User).Returns(user.Object);
-            user.Setup(u => u.Identity).Returns(mockIdentity.Object);
             forumData.Setup(f => f.ThreadsRepository).Returns(threadsRepository.Object);
 
-            var presenter = new CreateThreadPresenter(view.Object, forumData.Object)
-            {
-                HttpContext = httpContex.Object
-            };
+            var presenter = new CreateThreadPresenter(view.Object, forumData.Object);
 
             var testContent = "TestContent Should be at least 50 characters long!!!";
 
-            view.Raise(v => v.Create += null, view.Object, new ThreadEventArgs("  TestTitle    ", testContent, "TestSection", 1));
+            view.Raise(v => v.Create += null, new ThreadEventArgs("  TestTitle    ", testContent, "TestSection", 1));
 
             threadsRepository.Verify(r => r.CreateThread(It.Is<Thread>(t => t.Title == "TestTitle")));
         }
 
         [TestCase("abc")]
         [TestCase("ThereAre101Charactersaaaaaaaaaaaaaaaaaaaaaaaaaaaaassssssssssssssssssssssssssssssssssssssssssssssssssa")]
-        public void CreateThreadPresenter_WhenTitleIsOutOfRange_ShouldTransferToErrorPage(string title)
+        public void CreateThreadPresenter_WhenTitleIsOutOfRange_ShouldReturnErrorMessage(string title)
         {
             var view = new Mock<ICreateThreadView>();
             view.SetupAllProperties();
-            var httpContex = new Mock<HttpContextBase>();
             var forumData = new Mock<IForumData>();
             var threadsRepository = new Mock<IThreadsRepository>();
-            var server = new Mock<HttpServerUtilityBase>();
-            var claim = new Claim("test", "1");
-            var identity = new Mock<ClaimsIdentity>();
-
-            identity.Setup(ci => ci.FindFirst(It.IsAny<string>())).Returns(claim);
 
             var section = new Section() { Name = "TestSection" };
             forumData.Setup(s => s.SectionsRepository.GetSectionByName(It.IsAny<string>())).Returns(section);
-            httpContex.Setup(c => c.User.Identity).Returns(identity.Object);
-            httpContex.Setup(h => h.Server).Returns(server.Object);
             forumData.Setup(f => f.ThreadsRepository).Returns(threadsRepository.Object);
 
-            var presenter = new CreateThreadPresenter(view.Object, forumData.Object)
-            {
-                HttpContext = httpContex.Object
-            };
+            var presenter = new CreateThreadPresenter(view.Object, forumData.Object);
 
             var testContent = "TestContent Should be at least 50 characters long!!!";
-            view.Raise(v => v.Create += null, view.Object, new ThreadEventArgs(title, testContent, "TestSection", 1));
+            view.Raise(v => v.Create += null, new ThreadEventArgs(title, testContent, "TestSection", 1));
 
-            server.Verify(s => s.Transfer(It.Is<string>(x=>x.Contains("ErrorPage")), true), Times.Once);
+            StringAssert.Contains("Title must be between", view.Object.Model.Error);
         }
 
         [TestCase("Under50CharactersLong")]
@@ -232,29 +181,18 @@ namespace Forum.Tests.PresentersTests
         {
             var view = new Mock<ICreateThreadView>();
             view.SetupAllProperties();
-            var httpContex = new Mock<HttpContextBase>();
             var forumData = new Mock<IForumData>();
             var threadsRepository = new Mock<IThreadsRepository>();
-            var server = new Mock<HttpServerUtilityBase>();
-            var claim = new Claim("test", "1");
-            var identity = new Mock<ClaimsIdentity>();
-
-            identity.Setup(ci => ci.FindFirst(It.IsAny<string>())).Returns(claim);
 
             var section = new Section() { Name = "TestSection" };
             forumData.Setup(s => s.SectionsRepository.GetSectionByName(It.IsAny<string>())).Returns(section);
-            httpContex.Setup(c => c.User.Identity).Returns(identity.Object);
-            httpContex.Setup(h => h.Server).Returns(server.Object);
             forumData.Setup(f => f.ThreadsRepository).Returns(threadsRepository.Object);
 
-            var presenter = new CreateThreadPresenter(view.Object, forumData.Object)
-            {
-                HttpContext = httpContex.Object
-            };
+            var presenter = new CreateThreadPresenter(view.Object, forumData.Object);
 
-            view.Raise(v => v.Create += null, view.Object, new ThreadEventArgs("TestTitle", content, "TestSection", 1));
+            view.Raise(v => v.Create += null, new ThreadEventArgs("TestTitle", content, "TestSection", 1));
 
-            server.Verify(s => s.Transfer(It.Is<string>(x => x.Contains("ErrorPage")), true), Times.Once);
+            StringAssert.Contains("Content must be between", view.Object.Model.Error);
         }
 
         [Test]
@@ -262,27 +200,18 @@ namespace Forum.Tests.PresentersTests
         {
             var view = new Mock<ICreateThreadView>();
             view.SetupAllProperties();
-            var httpContex = new Mock<HttpContextBase>();
             var forumData = new Mock<IForumData>();
             var threadsRepository = new Mock<IThreadsRepository>();
-            var claim = new Claim("test", "1");
-            var identity = new Mock<ClaimsIdentity>();
-
-            identity.Setup(ci => ci.FindFirst(It.IsAny<string>())).Returns(claim);
 
             var section = new Section() { Name = "TestSection" };
             forumData.Setup(s => s.SectionsRepository.GetSectionByName(It.IsAny<string>())).Returns(section);
-            httpContex.Setup(c => c.User.Identity).Returns(identity.Object);
             forumData.Setup(f => f.ThreadsRepository).Returns(threadsRepository.Object);
 
-            var presenter = new CreateThreadPresenter(view.Object, forumData.Object)
-            {
-                HttpContext = httpContex.Object
-            };
+            var presenter = new CreateThreadPresenter(view.Object, forumData.Object);
 
             var testContent = "TestContent Should be at least 50 characters long!!!";
 
-            view.Raise(v => v.Create += null, view.Object, new ThreadEventArgs("TestTitle", testContent, "TestSection", 1));
+            view.Raise(v => v.Create += null, new ThreadEventArgs("TestTitle", testContent, "TestSection", 1));
 
             threadsRepository.Verify(r => r.CreateThread(It.Is<Thread>(t => t.IsVisible == true)));
         }
@@ -292,34 +221,19 @@ namespace Forum.Tests.PresentersTests
         {
             var view = new Mock<ICreateThreadView>();
             view.SetupAllProperties();
-            var httpContex = new Mock<HttpContextBase>();
             var forumData = new Mock<IForumData>();
             var threadsRepository = new Mock<IThreadsRepository>();
-            var server = new Mock<HttpServerUtilityBase>();
-            var claim = new Claim("test", "1");
-            var identity = new Mock<ClaimsIdentity>();
-
-            identity.Setup(ci => ci.FindFirst(It.IsAny<string>())).Returns(claim);
 
             var section = new Section() { Name = "TestSection" };
             forumData.Setup(s => s.SectionsRepository.GetSectionByName(It.IsAny<string>())).Returns(section);
-            httpContex.Setup(c => c.User.Identity).Returns(identity.Object);
-            httpContex.Setup(h => h.Server).Returns(server.Object);
             forumData.Setup(f => f.ThreadsRepository).Returns(threadsRepository.Object);
             threadsRepository.Setup(t => t.CreateThread(It.IsAny<Thread>())).Throws(new Exception());
 
-            var presenter = new CreateThreadPresenter(view.Object, forumData.Object)
-            {
-                HttpContext = httpContex.Object
-            };
+            var presenter = new CreateThreadPresenter(view.Object, forumData.Object);
 
             var testContent = "TestContent Should be at least 50 characters long!!!";
 
-            view.Raise(v => v.Create += null, view.Object, new ThreadEventArgs("TestTitle", testContent, "TestSection", 1));
-
-            server.Verify(s => s.Transfer(It.Is<string>(x => x.Contains("500")), true));
+            Assert.Throws<HttpException>(() => view.Raise(v => v.Create += null, new ThreadEventArgs("TestTitle", testContent, "TestSection", 1)));
         }
-
-
     }
 }

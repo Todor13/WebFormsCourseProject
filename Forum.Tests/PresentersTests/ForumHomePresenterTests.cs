@@ -1,12 +1,12 @@
 ﻿using NUnit.Framework;
 using Moq;
 using Forum.Views;
-using System.Web;
 using Forum.Data;
 using Forum.Presenters;
 using Forum.Views.Events;
 using System.Collections.Generic;
 using System.Linq;
+using Forum.Common;
 
 namespace Forum.Tests.PresentersTests
 {
@@ -39,7 +39,7 @@ namespace Forum.Tests.PresentersTests
 
             view.Raise(v => v.LoadPage += null, view.Object, new ForumHomeEventArgs(page));
 
-            Assert.AreEqual(threads.Skip((page-1) * Common.Constants.PageSize).Take(Common.Constants.PageSize), view.Object.Model.Threads);
+            CollectionAssert.AreEqual(threads.Skip((page-1) * GlobalConstants.PageSize).Take(GlobalConstants.PageSize), view.Object.Model.Threads);
         }
 
         [Test]

@@ -14,5 +14,7 @@ namespace Forum.Common
         public const int TitleMaxLength = 100;
         public const int ContentMinLength = 50;
         public const int ContentMaxLength = 2500;
+
+        public const int DefaultPageThreadsCount = 7;
     }
 }

@@ -1,22 +1,15 @@
 ﻿using Forum.Data;
-using Forum.Data.Repositories;
 using Forum.Presenters;
 using Forum.Views;
-using Forum.Views.Events;
 using Forum.Views.ForumViews.EditViews;
 using Moq;
 using NUnit.Framework;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace Forum.Tests.PresentersTests
-{   
+{
     [TestFixture]
     public class ThreadPresenterGetThreadTests
     {
@@ -43,7 +36,7 @@ namespace Forum.Tests.PresentersTests
                 answer2
             };
 
-            forumData.Setup(t => t.ThreadsRepository.GetThreadById(It.IsAny<int>())).Returns(thread);
+            forumData.Setup(t => t.ThreadsRepository.GetThreadById(It.Is<int>(x=>x == 1))).Returns(thread);
             forumData.Setup(a => a.AnswersRepository.GetAnswersByThreadId(It.IsAny<int>())).Returns(answers.AsQueryable);
 
             view.Raise(v => v.GetThread += null, view.Object, new GetByIdEventArgs(1));

@@ -119,6 +119,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Forum.Common\Forum.Common.csproj">
+      <Project>{a98b6e8c-cb7c-468a-97d8-3a069bcb69ab}</Project>
+      <Name>Forum.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Forum.Data\Forum.Data.csproj">
       <Project>{223F0CDB-3E25-45A1-9F18-475C27EF05B2}</Project>
       <Name>Forum.Data</Name>

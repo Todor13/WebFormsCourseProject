@@ -54,6 +54,7 @@
     <Compile Include="Presenters\ForumPresenters\ForumHomePresenter.cs" />
     <Compile Include="Presenters\ForumPresenters\SearchForumPresenter.cs" />
     <Compile Include="Presenters\ForumPresenters\ThreadPresenter.cs" />
+    <Compile Include="Presenters\HomePresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Views\Events\ForumEvents\EditEvents\ContentEventArgs.cs" />
     <Compile Include="Views\Events\ForumEvents\EditEvents\ThreadEditEventArgs.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Views\ForumModels\ForumViewModels\ForumHomeViewModel.cs" />
     <Compile Include="Views\ForumModels\ForumViewModels\SearchForumViewModel.cs" />
     <Compile Include="Views\ForumModels\ForumViewModels\ThreadViewModel.cs" />
+    <Compile Include="Views\ForumModels\HomeViewModel.cs" />
     <Compile Include="Views\ForumViews\EditViews\IAnswerEditView.cs" />
     <Compile Include="Views\ForumViews\EditViews\ICommentEditView.cs" />
     <Compile Include="Views\ForumViews\EditViews\IThreadEditView.cs" />

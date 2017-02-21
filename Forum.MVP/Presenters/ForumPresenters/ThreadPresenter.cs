@@ -6,6 +6,7 @@ using Forum.Views.Events;
 using Forum.Views.ForumViews.EditViews;
 using System;
 using System.Linq;
+using System.Web;
 using WebFormsMvp;
 
 namespace Forum.Presenters
@@ -61,8 +62,7 @@ namespace Forum.Presenters
             }
             catch (Exception)
             {
-                this.View.Model.Error = "Something went wrong!";
-                return;
+                throw new HttpException(500, "Internal Server Error");
             }
         }
 
@@ -105,8 +105,7 @@ namespace Forum.Presenters
             }
             catch (Exception)
             {
-                this.View.Model.Error = "Something went wrong!";
-                return;
+                throw new HttpException(500, "Internal Server Error");
             }
             
         }

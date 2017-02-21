@@ -1,15 +1,12 @@
-﻿using Forum.Data;
-using Forum.Data.Repositories;
+﻿using Forum.Common;
+using Forum.Data;
 using Forum.Presenters;
 using Forum.Views;
 using Forum.Views.Events;
 using Moq;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using WebFormsMvp;
 
 namespace Forum.Tests.PresentersTests
 {
@@ -40,9 +37,9 @@ namespace Forum.Tests.PresentersTests
 
             var presenter = new SearchForumPresenter(view.Object, forumData.Object);
 
-            view.Raise(v => v.SearchThreads += null, view.Object, new SearchForumEventArgs(string.Empty, page));
+            view.Raise(v => v.SearchThreads += null, new SearchForumEventArgs(string.Empty, page));
 
-            Assert.AreEqual(threads.Skip((page - 1) * Common.Constants.PageSize).Take(Common.Constants.PageSize), view.Object.Model.Threads);
+            CollectionAssert.AreEqual(threads.Skip((page - 1) * GlobalConstants.PageSize).Take(GlobalConstants.PageSize), view.Object.Model.Threads);
         }
 
         [Test]
@@ -64,7 +61,7 @@ namespace Forum.Tests.PresentersTests
 
             forumData.Setup(d => d.ThreadsRepository.GetAllThreads()).Returns(threads.AsQueryable);
 
-            view.Raise(v => v.SearchThreads += null, view.Object, new SearchForumEventArgs(string.Empty, 1));
+            view.Raise(v => v.SearchThreads += null, new SearchForumEventArgs(string.Empty, 1));
 
             Assert.AreEqual(exprectedThreadsCount, view.Object.Model.PageCount);
         }
@@ -90,7 +87,7 @@ namespace Forum.Tests.PresentersTests
 
             var presenter = new SearchForumPresenter(view.Object, forumData.Object);
 
-            view.Raise(v => v.SearchThreads += null, view.Object, new SearchForumEventArgs(string.Empty, 1));
+            view.Raise(v => v.SearchThreads += null, new SearchForumEventArgs(string.Empty, 1));
 
             Assert.AreEqual(expectedVisibleThreadsCount, view.Object.Model.Threads.Count());
         }
@@ -118,10 +115,10 @@ namespace Forum.Tests.PresentersTests
 
             var presenter = new SearchForumPresenter(view.Object, forumData.Object);
 
-            view.Raise(v => v.SearchThreads += null, view.Object, new SearchForumEventArgs(searchTerm, 1));
+            view.Raise(v => v.SearchThreads += null, new SearchForumEventArgs(searchTerm, 1));
 
             Assert.AreEqual(expectedThreadsWithSearchTerm, view.Object.Model.Threads.Count());
-            Assert.AreEqual(threads.Where(x => x.Contents == searchTerm || x.Title == searchTerm).ToList(), view.Object.Model.Threads);
+            CollectionAssert.AreEqual(threads.Where(x => x.Contents == searchTerm || x.Title == searchTerm).ToList(), view.Object.Model.Threads);
         }
     }
 }

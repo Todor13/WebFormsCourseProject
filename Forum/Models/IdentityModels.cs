@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
 using Forum.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
+using Forum.Data;
 
 namespace Forum.Models
 {
@@ -68,6 +68,7 @@ namespace Forum.Models
             : base("IdentityDbContext")
         {
         }
+
 
         public static ApplicationDbContext Create()
         {

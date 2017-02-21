@@ -7,6 +7,7 @@ using WebFormsMvp;
 using Forum.Views.Events;
 using Forum.Common;
 using Forum.MVP.Helpers;
+using System.Web;
 
 namespace Forum.Presenters
 {
@@ -42,7 +43,7 @@ namespace Forum.Presenters
             }
             catch (Exception)
             {
-                this.View.Model.Error = "Something went wrong!";
+                throw new HttpException(500, "Internal Server Error");
             }
 
             var userId = e.UserId;
@@ -91,8 +92,7 @@ namespace Forum.Presenters
             }
             catch (Exception)
             {
-                this.View.Model.Error = "Something went wrong!";
-                return;
+                throw new HttpException(500, "Internal Server Error");
             } 
         }
     }
