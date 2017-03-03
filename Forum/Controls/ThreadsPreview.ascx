@@ -1,7 +1,8 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="ThreadsPreview.ascx.cs" Inherits="Forum.Controls.ThreadsPreview" %>
 <div class="threads-preview-wrapper">
     <asp:Button ID="CreateThreadButton" runat="server" Text="Create Thread" PostBackUrl="~/Forum/CreateThread.aspx" />
-    <br />
+    <br />      
+    <hr />
     <asp:TextBox ID="TextBoxSearch" runat="server"></asp:TextBox>
     <asp:Button ID="SearchButton" runat="server" Text="Search" OnClick="SearchButton_Click" />
     <br />
@@ -26,11 +27,14 @@
                     </asp:HyperLink></h4>
             </div>
             <div class="published">
-                <p>
-                    Published by <%#: Item.AspNetUser.Email %> on
+                    <table>
+                        <tr>
+                            <td>Answers: <%# Item.Answers.Count %></td>
+                            <td style="padding-left: 7px">Published by <%#: Item.AspNetUser.Email %> on
                     <%#: String.Format("{0:dd MMMM yyyy H:mm:ss}", Item.Published.ToLocalTime()) %> in 
-                    <%#: Item.Section.Name %>
-                </p>
+                    <%#: Item.Section.Name %></td>
+                        </tr>
+                    </table>
             </div>
         </ItemTemplate>
     </asp:ListView>

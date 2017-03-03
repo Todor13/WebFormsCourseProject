@@ -1,4 +1,5 @@
-﻿using Forum.Data.Repositories.Contracts;
+﻿using Forum.Data;
+using Forum.Data.Repositories.Contracts;
 using Forum.MVP.Views.UserModels;
 using System;
 using System.Collections.Generic;
@@ -11,18 +12,18 @@ namespace Forum.MVP.Presenters.UserPresenters
 {
     public class AllUsersPresenter : Presenter<IView<AllUsersViewModel>>
     {
-        private IUsersRepository usersRepository;
+        private IUsersData usersData;
 
-        public AllUsersPresenter(IView<AllUsersViewModel> view, IUsersRepository usersRepository) : base(view)
+        public AllUsersPresenter(IView<AllUsersViewModel> view, IUsersData usersData) : base(view)
         {
-            this.usersRepository = usersRepository;
+            this.usersData = usersData;
 
             this.View.Load += Load;
         }
 
         private void Load(object sender, EventArgs e)
         {
-            this.View.Model.Users = this.usersRepository.GetAllUsers().ToArray();
+            this.View.Model.Users = this.usersData.UsersRepository.GetAllUsers().ToArray();
         }
     }
 }

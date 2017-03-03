@@ -26,9 +26,9 @@
                 <br />
                 <asp:RequiredFieldValidator ID="RequiredFieldAnswer" runat="server" ErrorMessage="Answer is empty!"
                     ControlToValidate="TextBoxAnswer" Display="Dynamic" ForeColor="DarkRed" EnableClientScript="false"></asp:RequiredFieldValidator>
-                <asp:RegularExpressionValidator ID="RegularExpressionValidatorContent" EnableClientScript="false" ControlToValidate="TextBoxAnswer"
+<%--                <asp:RegularExpressionValidator ID="RegularExpressionValidatorContent" EnableClientScript="false" ControlToValidate="TextBoxAnswer"
                     ValidationExpression="^.{50,2500}$" runat="server" ForeColor="DarkRed"
-                    ErrorMessage="Answer length must be between 50 and 2500 characters long!"></asp:RegularExpressionValidator>
+                    ErrorMessage="Answer length must be between 50 and 2500 characters long!"></asp:RegularExpressionValidator>--%>
                 <asp:TextBox runat="server" ID="TextBoxAnswer" Width="100%" Height="15em" TextMode="MultiLine"></asp:TextBox>
                 <br />
                 <br />

@@ -120,6 +120,8 @@
     <Compile Include="PresentersTests\Forum\ThreadPresenterTests\ThreadPresenterCommentTests.cs" />
     <Compile Include="PresentersTests\Forum\ThreadPresenterTests\ThreadPresenterGetThreadTests.cs" />
     <Compile Include="PresentersTests\HomePresenterTests.cs" />
+    <Compile Include="PresentersTests\Users\AllUsersPresenterTests.cs" />
+    <Compile Include="PresentersTests\Users\EditUsersPresenterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

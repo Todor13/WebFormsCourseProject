@@ -58,15 +58,6 @@ namespace Forum.Forum {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldAnswer;
         
         /// <summary>
-        /// RegularExpressionValidatorContent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidatorContent;
-        
-        /// <summary>
         /// TextBoxAnswer control.
         /// </summary>
         /// <remarks>

@@ -12,7 +12,7 @@ namespace Forum.Presenters
     {
         private const int PageSize = GlobalConstants.PageSize;
 
-        private IForumData forumData;
+        private readonly IForumData forumData;
 
         public SearchForumPresenter(ISearchForumView view, IForumData forumData) : base(view)
         {

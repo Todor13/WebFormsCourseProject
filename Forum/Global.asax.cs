@@ -28,7 +28,7 @@ namespace Forum
             string cTheLowerUrl = HttpContext.Current.Request.Path.ToLowerInvariant();
             if (cTheLowerUrl != HttpContext.Current.Request.Path)
             {
-                HttpContext.Current.Response.Redirect(cTheLowerUrl + HttpContext.Current.Request.Url.Query);
+                //HttpContext.Current.Response.Redirect(cTheLowerUrl + HttpContext.Current.Request.Url.Query);
             }
         }
     }

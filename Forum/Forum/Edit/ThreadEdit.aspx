@@ -2,8 +2,10 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ForumMainContent" runat="server">
     <h4><asp:Label runat="server" ID="LabelError" ForeColor="DarkRed" Text="<%# Model.Error %>" /></h4>
+    <br />
     <h4>
             <asp:RequiredFieldValidator ID="RequiredFieldValidatorTitle" Display="Dynamic" ControlToValidate="TextBoxThreadTitle"
+             
          runat="server" ForeColor="DarkRed" ErrorMessage="Title is required!"></asp:RequiredFieldValidator>
     <asp:RegularExpressionValidator ID="RegularExpressionValidatorTitle" ControlToValidate="TextBoxThreadTitle" 
         ValidationExpression="^.{7,100}$" runat="server" ForeColor="DarkRed"

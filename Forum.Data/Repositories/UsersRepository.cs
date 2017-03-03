@@ -28,6 +28,11 @@ namespace Forum.Data.Repositories
             this.Update(user);
         }
 
+        public void Save()
+        {
+            this.Context.SaveChanges();
+        }
+
         public void Dispose()
         {
             throw new NotImplementedException();
