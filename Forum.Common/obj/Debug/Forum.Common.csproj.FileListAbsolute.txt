@@ -1,5 +1,0 @@
-F:\Web\Projects\Forum\Forum.Common\bin\Debug\Forum.Common.dll
-F:\Web\Projects\Forum\Forum.Common\bin\Debug\Forum.Common.pdb
-F:\Web\Projects\Forum\Forum.Common\obj\Debug\Forum.Common.dll
-F:\Web\Projects\Forum\Forum.Common\obj\Debug\Forum.Common.pdb
-F:\Web\Projects\Forum\Forum.Common\obj\Debug\Forum.Common.csprojResolveAssemblyReference.cache
